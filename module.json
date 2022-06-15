@@ -1,0 +1,33 @@
+{
+  "name": "hackmaster-4e",
+  "title": "Hackmaster 4th Edition",
+  "description": "Support for Hackmaster 4e rules within the OSRIC system.",
+  "authors": [
+    {
+      "name": "Sterno",
+      "discord": "Sterno#8208"
+    }
+  ],
+  "url": "https://github.com/drplote/fvtt-hackmaster-4e",
+  "readme": "https://github.com/drplote/fvtt-hackmaster-4e/raw/main/README.md",
+  "flags": {},
+  "version": "1.0",
+  "minimumCoreVersion": "9",
+  "compatibleCoreVersion": "9",
+  "system": "osric",
+  "scripts": [],
+  "esmodules": [
+    "./scripts/hackmaster4e.js"
+  ],
+  "styles": [],
+  "languages": [],
+  "packs": [],
+  "system": [],
+  "dependencies": [],
+  "socket": false,
+  "manifest": "https://github.com/drplote/hackmaster-4e/raw/main/module.json",
+  "download": "https://github.com/drplote/hackmaster-4e/archive/refs/tags/release.zip",
+  "protected": false,
+  "coreTranslation": false,
+  "library": false
+}
