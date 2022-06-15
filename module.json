@@ -25,8 +25,8 @@
   "system": [],
   "dependencies": [],
   "socket": false,
-  "manifest": "https://github.com/drplote/hackmaster-4e/raw/main/module.json",
-  "download": "https://github.com/drplote/hackmaster-4e/archive/refs/tags/release.zip",
+  "manifest": "https://github.com/drplote/fvtt-hackmaster-4e/raw/main/module.json",
+  "download": "https://github.com/drplote/fvtt-hackmaster-4e/archive/refs/tags/release.zip",
   "protected": false,
   "coreTranslation": false,
   "library": false
