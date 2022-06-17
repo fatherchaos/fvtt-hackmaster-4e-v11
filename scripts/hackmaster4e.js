@@ -8,6 +8,7 @@ Hooks.once('init', function() {
   console.log(`Initializing "${MODULE_NAME}"`);
 
   CONFIG.Hackmaster = Hackmaster;
+  CONFIG.OSRIC.constitutionTable = Hackmaster.ConstitutionTable;
 
   libWrapper.register(MODULE_ID, 'CONFIG.Actor.documentClass.prototype._buildAbilityFields', (function(data) {
       return function(data) {
