@@ -1,6 +1,6 @@
 import { libWrapper } from './shim.js';
 import { HackmasterActor } from './hackmaster-actor.js';
-import { Hackmaster } from './config.js';
+import { Hackmaster } from './config.js';``
 
 Hooks.once('init', function() {
   const MODULE_NAME = "Hackmaster 4th Edition";
