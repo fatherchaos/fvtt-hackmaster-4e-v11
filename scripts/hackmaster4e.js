@@ -41,6 +41,6 @@ Hooks.once('init', function() {
   CONFIG.Hackmaster = Hackmaster;
 
   overrideStatBonuses();
-  addAcFieldsToActorDefinitions();.
+  addAcFieldsToActorDefinitions();
 });
 

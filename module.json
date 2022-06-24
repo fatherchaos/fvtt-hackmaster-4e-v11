@@ -19,7 +19,7 @@
   "esmodules": [
     "./scripts/hackmaster4e.js"
   ],
-  "styles": ["hackmaster.css"],
+  "styles": ["./css/hackmaster.css"],
   "languages": [],
   "packs": [],
   "dependencies": [],
