@@ -1,5 +1,7 @@
 export const Hackmaster = {};
 
+Hackmaster.MODULE_ID = "hackmaster-4e";
+
 Hackmaster.StrengthTable = {
 	0: ["OSRIC.abilityFields.str.hit", "OSRIC.abilityFields.str.dmg", "OSRIC.abilityFields.str.allow", "OSRIC.abilityFields.str.press", "OSRIC.abilityFields.str.open", "OSRIC.abilityFields.str.bendbars", "OSRIC.abilityFields.str.encumbrance.light", "OSRIC.abilityFields.str.encumbrance.moderate", "OSRIC.abilityFields.str.encumbrance.heavy", "OSRIC.abilityFields.str.encumbrance.severe", "OSRIC.abilityFields.str.encumbrance.max"],
   	
