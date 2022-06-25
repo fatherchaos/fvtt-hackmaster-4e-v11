@@ -3,6 +3,11 @@ import { Hackmaster } from './config.js';
 
 export class HackmasterActor{
 
+	static initialize(){
+		this.addAcFieldsToActorDefinitions();
+		this.overrideStatBonuses();
+	}
+
 	static overrideStatBonuses(){
 	  CONFIG.OSRIC.constitutionTable = Hackmaster.ConstitutionTable;
 	  libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Actor.documentClass.prototype._buildAbilityFields', (function() {

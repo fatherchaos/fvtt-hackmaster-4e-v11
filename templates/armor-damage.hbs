@@ -1,0 +1,8 @@
+<button type="button" class="collapsible-hm armor-damage-header-btn {{#if isEquipped}}active-hm{{/if}}">{{name}} Armor Status</button>
+<div class="armor-tracker content-hm {{#if isEquipped}}{{else}}hidden{{/if}}">
+    <ol>
+        {{#each armorLevels as |armorLevel| }}
+        <li>{{armorLevel.acBonus}} {{armorLevel.hpBoxes}}</li>
+        {{/each}}
+    </ol>
+</div>

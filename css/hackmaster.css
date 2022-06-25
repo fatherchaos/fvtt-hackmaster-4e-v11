@@ -2,6 +2,53 @@
 	display: none;
 }
 
+.armor-tracker {
+	padding: 5px;
+	border: solid 2px;
+	width: -webkit-fill-available;
+}
+
+.armor-tracker li {
+	font-size: 1.5em;
+}
+
+.character .tab.main .combat-stats .combat-box {
+	height: auto;
+}
+
+.armor-tracker-section {
+	margin-top: 20px;
+}
+
+.collapsible-hm {
+	background-color: #777;
+	color: white;
+	cursor: pointer;
+	padding: 5px;
+	width: 100%;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 15px;
+	box-shadow: none;
+	text-align:center;
+  }
+
+  .active-hm, .collapsible-hm:hover {
+	background-color: #555;
+	box-shadow: none;
+  }
+
+ .collapsible-hm:focus {
+	box-shadow: none;
+  }
+
+  .content-hm {
+	padding: 0 18px;
+	overflow: hidden;
+	background-color: #f1f1f1;
+	box-shadow: none;
+  }
 
 /*.item-list.inventory .item{
 	height: 50px;
