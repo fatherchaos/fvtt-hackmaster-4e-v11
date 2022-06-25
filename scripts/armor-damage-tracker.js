@@ -27,19 +27,24 @@ export class ArmorDamageTracker{
             isShield: armor.isShield,
             maxHp: armor.maxArmorHp,
             remainingHp: armor.hpRemaining,
-            acValue: armor.isShield ? totalAcLevels : (10 - totalAcLevels),
+            acValue: armor.effectiveAc,
             itemId: armor.id,
+            image: armor.image,
             isCollapsed: armor.getFlag('display.collapsedState') ?? !armor.isEquipped
         };
         for (let i = 0; i < totalAcLevels; i++){
+            let magicBonus = armor.acModifierUndamaged - i;
             let hpForLevel = armor.armorHpArray[i];
             let damageForLevel = Math.min(damageToDistribute, hpForLevel);
             damageToDistribute = damageToDistribute - damageForLevel;
             let remainingForLevel = hpForLevel - damageForLevel;
-            if (remainingForLevel === 0){
-                result.acValue = result.acValue + (armor.isShield ? -1 : 1);
+            let acBonusString = (magicBonus > 0 ? `(+${magicBonus}) ` : "");
+            if (armor.isShield){
+                acBonusString += `AC +${armor.undamagedAc - i} :`;
             }
-            let acBonusString = armor.isShield ? `AC +${armor.baseAc - i}: ` : `AC ${armor.baseAc + i}: `;
+            else{
+                acBonusString += `AC ${armor.undamagedAc + i} :`;
+            }
             result.armorLevels.push({acBonus: acBonusString, hpBoxes: this.buildArmorBoxes(damageForLevel, remainingForLevel) });
         }
         return result;

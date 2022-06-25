@@ -1,4 +1,6 @@
-<button type="button" class="flexrow armor-damage-header-btn {{#if isCollapsed}}{{else}}active-hm{{/if}}" data-item-id="{{itemId}}">
+<button type="button" class="flexrow armor-damage-header-btn {{#if isCollapsed}}{{else}}active-hm{{/if}} {{#if isEquipped}}{{else}}unequipped{{/if}}" 
+    data-item-id="{{itemId}}">
+    <img class="flexcol armor-image item-image" src="{{image}}" title="{{name}}"/>
     <div class="flexcol armor-ac">AC: {{#if isShield}}+{{/if}}{{acValue}}</div>
     <div class="flexcol armor-name">{{name}}</div>
     <div class="flexcol armor-hp">HP: {{remainingHp}}/{{maxHp}}</div>

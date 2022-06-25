@@ -19,6 +19,10 @@ export class ArmorInfo{
         return this._itemData?.id;
     }
 
+    get image(){
+        return this._itemData?.img;
+    }
+
     get protectionData(){
         return this._itemData?.data?.data?.protection;
     }
@@ -37,6 +41,22 @@ export class ArmorInfo{
 
     get baseAc(){
         return this.protectionData?.ac ?? 10;
+    }
+
+    get acModifier(){
+        return this.protectionData?.modifier;
+    }
+
+    get acModifierUndamaged(){
+        return this.acModifier + this.calcLevelsLostForDamageAmount(this.damageTaken);
+    }
+
+    get effectiveAc(){
+        return this.baseAc + (this.isShield ? 1 : -1) * this.acModifier;
+    }
+
+    get undamagedAc(){
+        return this.baseAc + (this.isShield ? 1 : -1) * this.acModifierUndamaged;
     }
 
     get armorHpArray(){
@@ -72,7 +92,37 @@ export class ArmorInfo{
     }
 
     async damageArmor(amount){
+        let oldDamage = this.damageTaken ?? 0;
         let newDamage = Math.max(0, Math.min(this.maxArmorHp, this.damageTaken + amount));
-        await this._itemData.update({"data.protection.armorDamage.damageTaken": newDamage})
+        let actualChange = newDamage - oldDamage;
+
+        if (actualChange !== 0){
+            let modifierChange = this.calcModifierChangeFromDamage(oldDamage, newDamage);
+            await this._itemData.update({
+                "data.protection.armorDamage.damageTaken": newDamage,
+                "data.protection.modifier": this.acModifier + modifierChange
+            })
+        }
+    }
+
+    calcModifierChangeFromDamage(oldDamage, newDamage){
+        if (oldDamage === newDamage){
+            return 0;
+        }
+
+        let oldLevelsLost = this.calcLevelsLostForDamageAmount(oldDamage);
+        let newLevelsLost = this.calcLevelsLostForDamageAmount(newDamage);
+        return oldLevelsLost - newLevelsLost;
+    }
+
+    calcLevelsLostForDamageAmount(damageAmount){
+        let levelsLost = 0;
+        for(let i = 0; i < this.armorHpArray.length && damageAmount > 0; i++){
+            if (damageAmount >= this.armorHpArray[i]){
+                levelsLost += 1;
+            }
+            damageAmount -= this.armorHpArray[i];
+        }
+        return levelsLost;
     }
 }

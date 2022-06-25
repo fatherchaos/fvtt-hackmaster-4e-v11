@@ -1,15 +1,23 @@
 import { libWrapper } from './shim.js';
 import { Hackmaster } from './config.js';
 
-export class HackmasterActor{
+export class HackmasterActor {
 
 	static initialize(){
 		this.addAcFieldsToActorDefinitions();
 		this.overrideStatBonuses();
+		this.disableTokenVisionAutomation();
+	}
+
+	static disableTokenVisionAutomation(){
+		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Actor.documentClass.prototype.updateTokenLightVision', (function() {
+			return function(data) {};
+		  })(), 'OVERRIDE');
 	}
 
 	static overrideStatBonuses(){
 	  CONFIG.OSRIC.constitutionTable = Hackmaster.ConstitutionTable;
+	  
 	  libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Actor.documentClass.prototype._buildAbilityFields', (function() {
 	    return function(data) {
 	      HackmasterActor._buildAbilityFields(data);
