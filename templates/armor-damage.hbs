@@ -1,5 +1,9 @@
-<button type="button" class="collapsible-hm armor-damage-header-btn {{#if isEquipped}}active-hm{{/if}}">{{name}} Armor Status</button>
-<div class="armor-tracker content-hm {{#if isEquipped}}{{else}}hidden{{/if}}">
+<button type="button" class="flexrow armor-damage-header-btn {{#if isCollapsed}}{{else}}active-hm{{/if}}" data-item-id="{{itemId}}">
+    <div class="flexcol armor-ac">AC: {{#if isShield}}+{{/if}}{{acValue}}</div>
+    <div class="flexcol armor-name">{{name}}</div>
+    <div class="flexcol armor-hp">HP: {{remainingHp}}/{{maxHp}}</div>
+</button>
+<div class="armor-tracker {{#if isCollapsed}}hidden{{/if}}" data-item-id="{{itemId}}">
     <ol>
         {{#each armorLevels as |armorLevel| }}
         <li>{{armorLevel.acBonus}} {{armorLevel.hpBoxes}}</li>

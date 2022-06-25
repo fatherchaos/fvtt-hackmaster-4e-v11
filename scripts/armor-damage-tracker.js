@@ -1,31 +1,45 @@
+import { ArmorInfo } from './armor-info.js';
+
 export class ArmorDamageTracker{
 
-    static async buildArmorReport(itemData){
-        return await renderTemplate("modules/hackmaster-4e/templates/armor-damage.hbs", this.getArmorDamageTemplateData(itemData));
+    static async damageArmor(itemData, amount){
+		if (itemData){
+			let armor = new ArmorInfo(itemData);
+			await armor.damageArmor(amount);
+		}
     }
 
-    static getArmorDamageTemplateData(itemData){
-        let armorData = itemData.data.data;
-        if (!armorData || !armorData?.protection?.armorDamage?.progression){
+    static async buildArmorReport(armor){
+        return await renderTemplate("modules/hackmaster-4e/templates/armor-damage.hbs", this.getArmorDamageTemplateData(armor));
+    }
+
+    static getArmorDamageTemplateData(armor){
+        if (!armor || !armor.armorHpArray){
             return null;
         }
-        const locationState = game.osric.library.const.location;
-        let isShield = itemData.data.data.protection.type === "shield";
-        let armorHp = armorData.protection.armorDamage.progression.split(',').map(s => Number(s));
-        let totalAcLevels = armorHp.length;
-        let damageToDistribute = armorData.protection.armorDamage.damageTaken;
+        
+        let totalAcLevels = armor.armorHpArray.length;
+        let damageToDistribute = armor.damageTaken;
         let result = {
             armorLevels: [], 
-            name: itemData.data.name,
-            isEquipped: itemData.data.data.location.state === locationState.EQUIPPED
+            name: armor.name,
+            isEquipped: armor.isEquipped,
+            isShield: armor.isShield,
+            maxHp: armor.maxArmorHp,
+            remainingHp: armor.hpRemaining,
+            acValue: armor.isShield ? totalAcLevels : (10 - totalAcLevels),
+            itemId: armor.id,
+            isCollapsed: armor.getFlag('display.collapsedState') ?? !armor.isEquipped
         };
         for (let i = 0; i < totalAcLevels; i++){
-            let hpForLevel = armorHp[i];
-            let acBonus = totalAcLevels - i;
+            let hpForLevel = armor.armorHpArray[i];
             let damageForLevel = Math.min(damageToDistribute, hpForLevel);
             damageToDistribute = damageToDistribute - damageForLevel;
             let remainingForLevel = hpForLevel - damageForLevel;
-            let acBonusString = isShield ? `AC +${acBonus}: ` : `AC ${10 - acBonus}: `;
+            if (remainingForLevel === 0){
+                result.acValue = result.acValue + (armor.isShield ? -1 : 1);
+            }
+            let acBonusString = armor.isShield ? `AC +${armor.baseAc - i}: ` : `AC ${armor.baseAc + i}: `;
             result.armorLevels.push({acBonus: acBonusString, hpBoxes: this.buildArmorBoxes(damageForLevel, remainingForLevel) });
         }
         return result;

@@ -4,7 +4,7 @@
 
 .armor-tracker {
 	padding: 5px;
-	border: solid 2px;
+	border: 1px groove black;
 	width: -webkit-fill-available;
 }
 
@@ -17,16 +17,17 @@
 }
 
 .armor-tracker-section {
-	margin-top: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
-.collapsible-hm {
-	background-color: #777;
+.armor-damage-header-btn {
+	background-color: #775b12 ;
 	color: white;
 	cursor: pointer;
 	padding: 5px;
 	width: 100%;
-	border: none;
+	border: 1px groove black;
 	text-align: left;
 	outline: none;
 	font-size: 15px;
@@ -34,16 +35,20 @@
 	text-align:center;
   }
 
-  .active-hm, .collapsible-hm:hover {
-	background-color: #555;
+  .armor-damage-header-btn .armor-name{
+	flex: 3
+  }
+
+  .active-hm, .armor-damage-header-btn:hover {
+	background-color: #775b12;
 	box-shadow: none;
   }
 
- .collapsible-hm:focus {
+ .armor-damage-header-btn:focus {
 	box-shadow: none;
   }
 
-  .content-hm {
+  .armor-tracker {
 	padding: 0 18px;
 	overflow: hidden;
 	background-color: #f1f1f1;
