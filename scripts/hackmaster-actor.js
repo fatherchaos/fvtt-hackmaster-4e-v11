@@ -7,6 +7,23 @@ export class HackmasterActor {
 		this.addAcFieldsToActorDefinitions();
 		this.overrideStatBonuses();
 		this.disableTokenVisionAutomation();
+		this.overridePrepareArmorClass();
+	}
+
+	static overridePrepareArmorClass(){
+		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Actor.documentClass.prototype._prepareArmorClass', function(wrapped, ...args) {
+			// This is a fix for armor damage causing touch AC to be bad. We just don't add in armor modifier to touch AC now.
+			wrapped(...args);
+			let data = args[0];
+			data.armorClass.touch =
+			data.attributes.ac.value +
+			data.armorClass.shield +
+			data.armorClass.ring +
+			data.armorClass.cloak +
+			data.armorClass.modEffects +
+			data.armorClass.other +
+			data.armorClass.dex;
+		}, 'WRAPPER');
 	}
 
 	static disableTokenVisionAutomation(){
