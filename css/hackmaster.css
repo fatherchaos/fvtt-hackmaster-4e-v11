@@ -63,12 +63,20 @@
 	box-shadow: none;
   }
 
-  .armor-tracker {
+.armor-tracker {
 	padding: 0 18px;
 	overflow: hidden;
 	background-color: #f1f1f1;
 	box-shadow: none;
-  }
+}
+
+#always-hp-armor-selector{
+    text-align: center;
+    background: url(../../../ui/parchment.jpg) repeat;
+    font-size: 12px;
+    font-weight: bold;
+	width: 200px;
+}
 
 /*.item-list.inventory .item{
 	height: 50px;

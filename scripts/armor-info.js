@@ -103,6 +103,8 @@ export class ArmorInfo{
                 "data.protection.modifier": this.acModifier + modifierChange
             })
         }
+
+        return actualChange;
     }
 
     calcModifierChangeFromDamage(oldDamage, newDamage){
