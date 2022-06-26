@@ -1,6 +1,6 @@
 export class ArmorInfo{
     constructor(itemData) {
-		this._itemData = game.actors.get(itemData.actor.id).items.get(itemData.id);
+		this._itemData = itemData;
 	}
 
     getFlag(flag){
