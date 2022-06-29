@@ -6,7 +6,6 @@ export class HackmasterActor {
 	static initialize(){
 		this.addAcFieldsToActorDefinitions();
 		this.overrideStatBonuses();
-		this.disableTokenVisionAutomation();
 		this.overridePrepareArmorClass();
 	}
 
@@ -24,12 +23,6 @@ export class HackmasterActor {
 			data.armorClass.other +
 			data.armorClass.dex;
 		}, 'WRAPPER');
-	}
-
-	static disableTokenVisionAutomation(){
-		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Actor.documentClass.prototype.updateTokenLightVision', (function() {
-			return function(data) {};
-		  })(), 'OVERRIDE');
 	}
 
 	static overrideStatBonuses(){
