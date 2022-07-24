@@ -7,6 +7,14 @@ export class HackmasterActor {
 		this.addAcFieldsToActorDefinitions();
 		this.overrideStatBonuses();
 		this.overridePrepareArmorClass();
+		this.overrideSavingThrows();
+	}
+
+	static overrideSavingThrows(){
+		let saveVariants = Object.keys(CONFIG.OSRIC.npcSaveTable);
+		saveVariants.map(v => {
+			CONFIG.OSRIC.npcSaveTable[v] = CONFIG.Hackmaster.MonsterSaves;
+		});
 	}
 
 	static overridePrepareArmorClass(){

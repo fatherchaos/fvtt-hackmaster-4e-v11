@@ -2,6 +2,32 @@ export const Hackmaster = {};
 
 Hackmaster.MODULE_ID = "hackmaster-4e";
 
+// para/poison/Death, Rod/staff/wand, petri/Poly, Breath, Spell
+Hackmaster.MonsterSaves = {
+	0: [16, 18, 17, 20, 19],
+	1: [15, 17, 16, 19, 18],
+	2: [14, 16, 15, 18, 17],
+	3: [13, 15, 15, 17, 16],
+	4: [13, 15, 14, 16, 16],
+	5: [12, 14, 13, 15, 15],
+	6: [11, 13, 12, 14, 14],
+	7: [10, 12, 11, 13, 13],
+	8: [10, 12, 11, 12, 13],
+	9: [9, 11, 10, 11, 12],
+	10: [8, 10, 9, 10, 11],
+	11: [7, 9, 8, 9, 10],
+	12: [7, 9, 8, 8, 10],
+	13: [6, 8, 7, 7, 9],
+	14: [5, 7, 6, 6, 8],
+	15: [4, 6, 5, 5, 7],
+	16: [4, 6, 5, 4, 7],
+	17: [3, 5, 4, 3, 6],
+	18: [3, 5, 4, 2, 6],
+	19: [2, 4, 3, 2, 5],
+	20: [2, 4, 3, 2, 5],
+	21: [2, 4, 3, 2, 5]
+}
+
 Hackmaster.StrengthTable = {
 	0: ["OSRIC.abilityFields.str.hit", "OSRIC.abilityFields.str.dmg", "OSRIC.abilityFields.str.allow", "OSRIC.abilityFields.str.press", "OSRIC.abilityFields.str.open", "OSRIC.abilityFields.str.bendbars", "OSRIC.abilityFields.str.encumbrance.light", "OSRIC.abilityFields.str.encumbrance.moderate", "OSRIC.abilityFields.str.encumbrance.heavy", "OSRIC.abilityFields.str.encumbrance.severe", "OSRIC.abilityFields.str.encumbrance.max"],
   	

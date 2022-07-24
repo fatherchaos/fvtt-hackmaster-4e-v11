@@ -78,6 +78,12 @@
 	width: 200px;
 }
 
+.editor-content{
+	/* background: white; */
+	font-family: 'Font Awesome 5 Free';
+	font-size: 16px;
+}
+
 /*.item-list.inventory .item{
 	height: 50px;
 	line-height: 49px;
