@@ -78,10 +78,17 @@
 	width: 200px;
 }
 
+.editor{
+	background:white;
+}
+
 .editor-content{
-	/* background: white; */
-	font-family: 'Font Awesome 5 Free';
+	font-family: 'Vollkorn,Eczar,Georgia,serif';
 	font-size: 16px;
+	font-weight:400;
+	margin-left:auto;
+	margin-right:auto;
+	width:94%;
 }
 
 /*.item-list.inventory .item{
