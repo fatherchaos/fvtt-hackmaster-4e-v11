@@ -17,11 +17,16 @@ function loadHackmasterTemplates(){
   ]);
 }
 
+function updateOsricConfig(){
+  CONFIG.OSRIC.icons.general.actors['npc'] = 'icons/svg/mystery-man-black.svg';
+}
+
 Hooks.once('init', function() {
   console.log(`Initializing "${MODULE_NAME}"`);
 
   CONFIG.Hackmaster = Hackmaster;
 
+  updateOsricConfig();
   loadHackmasterTemplates();
   HackmasterActor.initialize();
   HackmasterCharacterSheet.initialize();
