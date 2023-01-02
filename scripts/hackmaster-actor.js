@@ -34,7 +34,7 @@ export class HackmasterActor {
 	}
 
 	static overrideStatBonuses(){
-	  CONFIG.OSRIC.constitutionTable = Hackmaster.ConstitutionTable;
+	  CONFIG.OSRIC.constitutionTable["0"] = Hackmaster.ConstitutionTable;
 	  
 	  libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Actor.documentClass.prototype._buildAbilityFields', (function() {
 	    return function(data) {
