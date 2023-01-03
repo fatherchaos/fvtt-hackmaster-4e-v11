@@ -1,4 +1,4 @@
-import { ArmorInfo } from './armor-info.js';
+import { ArmorInfo } from './Modules/armor-info.js';
 
 export class AlwaysHpSupport{
     static initialize(){

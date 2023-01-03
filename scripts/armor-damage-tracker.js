@@ -1,6 +1,6 @@
-import { ArmorInfo } from './armor-info.js';
+import { ArmorInfo } from './Modules/armor-info.js';
 
-export class ArmorDamageTracker{
+export class ArmorDamageTracker {
 
     static async damageArmor(itemData, amount){
 		if (itemData){

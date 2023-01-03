@@ -1,0 +1,40 @@
+<tr>
+    <td>
+        <div class="ability-label">
+            <label for="system.honor" class="ability-score" data-label="Honor">Hon</label>
+        </div>
+
+        <div class="ability-score">
+            <input type="text" name="system.honor.value" value={{honor}} data-dtype="Number"/>
+        </div>
+    </td>
+    
+    <td>
+        <table class="fields">
+            <tbody>
+                <tr>
+                    <th>
+                        <label for="system.honor.temp" data-label="Temp">Temp</label>
+                    </th>
+                    <th>
+                        <labe data-label="Honor Die">Honor Die</label>
+                    </th>
+                    <th>
+                        <label data-label="Category">Category</label>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" name="system.honor.temp" value="{{temp}}" data-dtype="Number"/>
+                    </td>
+                    <td>
+                        <label data-label="Honor Die">{{die}}</label>
+                    </td>
+                    <td>
+                        <label data-label="Category">{{category}}</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>

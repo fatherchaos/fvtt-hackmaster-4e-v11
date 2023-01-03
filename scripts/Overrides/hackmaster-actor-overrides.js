@@ -1,10 +1,9 @@
-import { libWrapper } from './shim.js';
-import { Hackmaster } from './config.js';
+import { libWrapper } from '../shim.js';
+import { Hackmaster } from '../config.js';
 
-export class HackmasterActor {
+export class HackmasterActorOverrides {
 
 	static initialize(){
-		this.addAcFieldsToActorDefinitions();
 		this.overrideStatBonuses();
 		this.overridePrepareArmorClass();
 		this.overrideSavingThrows();
@@ -38,29 +37,9 @@ export class HackmasterActor {
 	  
 	  libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Actor.documentClass.prototype._buildAbilityFields', (function() {
 	    return function(data) {
-	      HackmasterActor._buildAbilityFields(data);
+			HackmasterActorOverrides._buildAbilityFields(data);
 	    };
 	  })(), 'OVERRIDE');
-	}
-
-	// This exists primarily for Token Mold support.
-	static addAcFieldsToActorDefinitions(){
-	  let armorClass = {
-	     "normal": 10,
-	     "rear": 10,
-	     "touch": 10,
-	     "shieldless": 10,
-	     "nodex": 10,
-	     "acranged": 10,
-	     "acrangedfront": 10,
-	     "acrangedrear": 10,
-	     "armormelee": 10,
-	     "armormeleefront": 10,
-	     "armormeleerear": 10
-	  };
-
-	  game.system.model.Actor.character.armorClass = armorClass;
-	  game.system.model.Actor.npc.armorClass = armorClass;
 	}
 
 	static _buildAbilityFields(data) {

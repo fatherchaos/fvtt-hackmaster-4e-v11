@@ -24,7 +24,7 @@ export class ArmorInfo{
     }
 
     get protectionData(){
-        return this._itemData?.data?.data?.protection;
+        return this._itemData?.system?.protection;
     }
 
     get armorDamageData(){
@@ -68,7 +68,7 @@ export class ArmorInfo{
 
     get isEquipped(){
         const locationState = game.osric.library.const.location;
-        return this._itemData?.data?.data?.location?.state == locationState.EQUIPPED;
+        return this._itemData?.system?.location?.state == locationState.EQUIPPED;
     }
 
     get damageTaken(){
@@ -84,7 +84,7 @@ export class ArmorInfo{
     }
 
     get name(){
-        return this._itemData?.data?.name;
+        return this._itemData?.name;
     }
 
     async repairArmor(amount){
@@ -99,8 +99,8 @@ export class ArmorInfo{
         if (actualChange !== 0){
             let modifierChange = this.calcModifierChangeFromDamage(oldDamage, newDamage);
             await this._itemData.update({
-                "data.protection.armorDamage.damageTaken": newDamage,
-                "data.protection.modifier": this.acModifier + modifierChange
+                "system.protection.armorDamage.damageTaken": newDamage,
+                "system.protection.modifier": this.acModifier + modifierChange
             })
         }
 

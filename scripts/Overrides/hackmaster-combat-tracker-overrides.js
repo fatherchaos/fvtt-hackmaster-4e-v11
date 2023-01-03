@@ -1,13 +1,11 @@
-import * as osricCombatTracker from "../../../systems/osric/module/combat/combatTracker.js";
-
-export class HackmasterCombatTracker{
+export class HackmasterCombatTrackerOverrides {
 	static initialize(){
-		HackmasterCombatTracker.overrideUpdateCombat();
+		HackmasterCombatTrackerOverrides.overrideUpdateCombat();
 	}
 
     static overrideUpdateCombat(){
         libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Combat.documentClass.prototype.reRollInitiative', async function(...args) {
-            await HackmasterCombatTracker.reRollInitiative(this);
+            await HackmasterCombatTrackerOverrides.reRollInitiative(this);
 		}, 'OVERRIDE');
     }
 

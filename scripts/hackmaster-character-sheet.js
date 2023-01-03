@@ -1,11 +1,13 @@
 import { ArmorDamageTracker } from './armor-damage-tracker.js';
-import { ArmorInfo } from './armor-info.js';
+import { ArmorInfo } from './Modules/armor-info.js';
+import { HackmasterActor } from './Modules/hackmaster-actor.js';
 
 export class HackmasterCharacterSheet {
 	static initialize(){
 		Hooks.on('renderActorSheet', async (sheet) => {
 			let hmSheet = new HackmasterCharacterSheet(sheet);
 			await hmSheet.insertArmorTrackers();
+			await hmSheet.insertHonor();
 			hmSheet.restoreScrollPosition();
 		});
 	}
@@ -19,7 +21,7 @@ export class HackmasterCharacterSheet {
 	}
 
 	get inventory(){
-		return this._sheet.object.data.data.inventory;
+		return this._sheet.object.system.inventory;
 	}
 
 	findElement(selector){
@@ -29,7 +31,7 @@ export class HackmasterCharacterSheet {
 	getArmors(){
 		let armors = this.inventory.filter(i => 
 			i.type === "armor" && 
-			(i.data.data.protection.type === "armor" || i.data.data.protection.type === "shield")
+			(i.system.protection.type === "armor" || i.system.protection.type === "shield")
 		).map(a => new ArmorInfo(a));
 		armors.sort((a, b) => {
 			if (a.isEquipped === b.isEquipped){
@@ -44,6 +46,17 @@ export class HackmasterCharacterSheet {
 
 	async buildArmorDamageSection(){
 		return await renderTemplate("modules/hackmaster-4e/templates/actor-armor-damage-section.hbs");
+	}
+
+	async buildHonorSection(){
+		let hmActor = new HackmasterActor(this.actor);
+		let result = {
+			honor: hmActor.honor, 
+			temp: hmActor.temporaryHonor,
+			die: hmActor.getHonorDie(),
+			category: hmActor.getHonorStateDescription()
+		};
+		return await renderTemplate("modules/hackmaster-4e/templates/actor-honor-section.hbs", result );
 	}
 
 	restoreScrollPosition(){
@@ -93,5 +106,11 @@ export class HackmasterCharacterSheet {
 		let section = await this.buildArmorDamageSection();
 		combatBox.append(section);
 		await Promise.all(this.getArmors().map(a => this.insertArmorTracker(a)));
+	}
+
+	async insertHonor(){
+		let abilitySaveGrid = this.findElement(".ability-save-grid .ability-tables tbody").first();
+		let section = await this.buildHonorSection();
+		abilitySaveGrid.append(section);
 	}
 };
