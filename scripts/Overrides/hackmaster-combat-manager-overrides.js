@@ -1,56 +1,59 @@
 import { HackmasterActor } from '../Modules/hackmaster-actor.js';
 import { libWrapper } from '../shim.js';
+import { HackmasterCombatTrackerOverrides } from './hackmaster-combat-tracker-overrides.js';
 
 export class HackmasterCombatManagerOverrides {
     static initialize(){
-        this.overrideRollBehavior();
+        this.overrideDamageRoll();
+		this.overrideAttackRoll();
 	}
 
-    static overrideRollBehavior(){
-		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'game.osric.combatManager.getRolledDamage', async function(wrapped, ...args) {
-			await wrapped(...args);
-			let dd = args[0];
-			// const rolled = {
-			// 	armorDamage: [],
-			// 	rawformulas: [],
-			// 	formulas: [],
-			// 	results: [],
-			// 	totals: [],
-			// 	rolls: [],
-			// 	totalValues: 0,
-			// };
-			// dmgDone.push({
-			// 	dmg: rolledTotal,
-			// 	type: damageType,
-			// 	// roll: roll, sendHealthAdjustChatCard
-			// 	roll: roll
-			// });
-			// dd.data.dmgDone = dmgDone;
-			// dd.data.rolled = rolled;
+	static overrideAttackRoll(){
+		Hooks.on('addAttackRollBonuses', (dd, targetToken, bonusFormula, additionalRollData) =>{
+			this.applyHonorToAttackRoll(dd, bonusFormula, additionalRollData);
+		});
+	}
 
-			let hmActor = new HackmasterActor(dd.source);
-			let isGreatHonor = hmActor.isInGreatHonor();
-			let isDishonor = hmActor.isInDishonor();
+	static applyHonorToAttackRoll(dd, bonusFormula, additionalRollData){
+		let hmActor = new HackmasterActor(dd.source);
+		let isGreatHonor = hmActor.isInGreatHonor();
+		let isDishonor = hmActor.isInDishonor();
 
-			if (isGreatHonor || isDishonor){
-				for(let i = 0; i < dd.data.dmgDone.length; i++){
-					
-					let numDiceRolled = dd.data.rolled.rolls[i].dice[0]?.results?.length ?? 0;
-					let operatorSign = isGreatHonor ? '+' : '-';
+		if (isGreatHonor || isDishonor){
+			bonusFormula.push('@honor');
+			additionalRollData.honor = isGreatHonor ? 1 : -1;
+		}
+	}
 
-					dd.data.rolled.formulas[i] += ` ${operatorSign} ${numDiceRolled}`;
-					dd.data.rolled.rawformulas[i] += ` ${operatorSign} honor`;
-					dd.data.rolled.results[i] += ` ${operatorSign} ${numDiceRolled}`;
+	static applyHonorToDamageRoll(dd){
+		let hmActor = new HackmasterActor(dd.source);
+		let isGreatHonor = hmActor.isInGreatHonor();
+		let isDishonor = hmActor.isInDishonor();
 
-					if (isGreatHonor) {
-						dd.data.dmgDone[i].dmg += numDiceRolled;
-					}
-					else if (isDishonor) {
-						dd.data.dmgDone[i].dmg -= numDiceRolled;
-					}
+		if (isGreatHonor || isDishonor){
+			for(let i = 0; i < dd.data.dmgDone.length; i++){
+				
+				let numDiceRolled = dd.data.rolled.rolls[i].dice[0]?.results?.length ?? 0;
+				let operatorSign = isGreatHonor ? '+' : '-';
+
+				dd.data.rolled.formulas[i] += ` ${operatorSign} ${numDiceRolled}`;
+				dd.data.rolled.rawformulas[i] += ` ${operatorSign} honor`;
+				dd.data.rolled.results[i] += ` ${operatorSign} ${numDiceRolled}`;
+
+				if (isGreatHonor) {
+					dd.data.dmgDone[i].dmg += numDiceRolled;
+				}
+				else if (isDishonor) {
+					dd.data.dmgDone[i].dmg -= numDiceRolled;
 				}
 			}
-			
+		}
+	}
+
+    static overrideDamageRoll(){
+		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'game.osric.combatManager.getRolledDamage', async function(wrapped, ...args) {
+			await wrapped(...args);
+			this.applyHonorToDamageRoll(args[0]);			
 		}, 'WRAPPER');
 	}
 }
