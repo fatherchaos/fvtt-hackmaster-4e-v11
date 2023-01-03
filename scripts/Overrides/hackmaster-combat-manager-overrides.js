@@ -4,13 +4,13 @@ import { HackmasterCombatTrackerOverrides } from './hackmaster-combat-tracker-ov
 
 export class HackmasterCombatManagerOverrides {
     static initialize(){
-        this.overrideDamageRoll();
-		this.overrideAttackRoll();
+        HackmasterCombatManagerOverrides.overrideDamageRoll();
+		HackmasterCombatManagerOverrides.overrideAttackRoll();
 	}
 
 	static overrideAttackRoll(){
 		Hooks.on('addAttackRollBonuses', (dd, targetToken, bonusFormula, additionalRollData) =>{
-			this.applyHonorToAttackRoll(dd, bonusFormula, additionalRollData);
+			HackmasterCombatManagerOverrides.applyHonorToAttackRoll(dd, bonusFormula, additionalRollData);
 		});
 	}
 
@@ -37,7 +37,7 @@ export class HackmasterCombatManagerOverrides {
 				let operatorSign = isGreatHonor ? '+' : '-';
 
 				dd.data.rolled.formulas[i] += ` ${operatorSign} ${numDiceRolled}`;
-				dd.data.rolled.rawformulas[i] += ` ${operatorSign} honor`;
+				dd.data.rolled.rawformulas[i] += ` ${operatorSign} @honor`;
 				dd.data.rolled.results[i] += ` ${operatorSign} ${numDiceRolled}`;
 
 				if (isGreatHonor) {
@@ -53,7 +53,7 @@ export class HackmasterCombatManagerOverrides {
     static overrideDamageRoll(){
 		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'game.osric.combatManager.getRolledDamage', async function(wrapped, ...args) {
 			await wrapped(...args);
-			this.applyHonorToDamageRoll(args[0]);			
+			HackmasterCombatManagerOverrides.applyHonorToDamageRoll(args[0]);			
 		}, 'WRAPPER');
 	}
 }
