@@ -2,6 +2,10 @@
 	display: none;
 }
 
+.crit-card {
+	background: rgb(240, 239, 209);
+}
+
 .armor-tracker {
 	padding: 5px;
 	border: 1px groove black;

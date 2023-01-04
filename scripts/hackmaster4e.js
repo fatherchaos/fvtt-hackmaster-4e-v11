@@ -5,6 +5,7 @@ import { HackmasterItem } from "./hackmaster-item.js";
 import { AlwaysHpSupport } from './always-hp-support.js';
 import { HackmasterCombatTrackerOverrides } from './Overrides/hackmaster-combat-tracker-overrides.js';
 import { HackmasterCombatManagerOverrides } from './Overrides/hackmaster-combat-manager-overrides.js';
+import { HackmasterChatCommands } from './Modules/hackmaster-chat-commands.js';
 
 const MODULE_NAME = "Hackmaster 4th Edition";
 
@@ -14,7 +15,8 @@ function loadHackmasterTemplates(){
     'modules/hackmaster-4e/templates/armor-damage.hbs',
     'modules/hackmaster-4e/templates/item-armor-damage-fields.hbs',
     'modules/hackmaster-4e/templates/always-hp-armor-section.hbs',
-    'modules/hackmaster-4e/templates/actor-honor-section.hbs'
+    'modules/hackmaster-4e/templates/actor-honor-section.hbs',
+    'modules/hackmaster-4e/templates/crit-chat-card.hbs'
   ]);
 }
 
@@ -22,19 +24,23 @@ function updateOsricConfig(){
   CONFIG.OSRIC.icons.general.actors['npc'] = 'icons/svg/mystery-man-black.svg';
 }
 
+Hooks.once('ready', function(){
+  loadHackmasterTemplates();
+});
+
 Hooks.once('init', function() {
   console.log(`Initializing "${MODULE_NAME}"`);
 
   CONFIG.Hackmaster = Hackmaster;
 
   updateOsricConfig();
-  loadHackmasterTemplates();
   HackmasterActorOverrides.initialize();
   HackmasterCharacterSheet.initialize();
   HackmasterItem.initialize();
   HackmasterCombatTrackerOverrides.initialize();
   AlwaysHpSupport.initialize();
   HackmasterCombatManagerOverrides.initialize();
+  HackmasterChatCommands.initialize();
 });
 
 Hooks.on("aipSetup", (packageConfig) => {

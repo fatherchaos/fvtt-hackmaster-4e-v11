@@ -1,0 +1,19 @@
+<div class="crit-card">
+    <fieldset class="border-top">
+        <legend>Critical Hit</legend>
+        <div class="action-card item">
+            <div class="grid-container">
+                <div class="grid-item">Location: {{hitLocation}}</div>
+                <div class="grid-item">Severity: {{severity}}</div>
+                <div class="grid-item">Damage Bonus: {{damageBonus}}</div>
+                <div class="grid-item">Has Scar? {{hasScar}}</div>
+                <div class="grid-item">Permanent? {{isPermanent}}</div>
+                <div class="grid-item">Bruised for {{bruiseDays}} days</div>
+            </div>
+        </div>
+        <br/>
+        {{#each effects as |effect| }}
+            <label>{{effect}}</label>
+        {{/each}}
+    </fieldset>
+</div>
