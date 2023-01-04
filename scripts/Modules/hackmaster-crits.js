@@ -4,7 +4,7 @@ import { Utilities } from '../utilities.js'
 import { HackmasterActor } from './hackmaster-actor.js';
 
 export class HackmasterCrits {
-    
+   
     static getRandomNumber(min, max){
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -30,18 +30,19 @@ export class HackmasterCrits {
 
     static handleCritCheck(roll, dd, targetToken){
 		let source = new HackmasterActor(dd.source);
-		let target = targetToken?.actor ? new HackmasterActor(targetToken.actor) : null;
-        let nTargetAc = target?.armorClass[dd.ac] ?? 10;
+		let target = new HackmasterActor(targetToken?.actor);
+        let nTargetAc = target.getArmorClass(dd.ac);
         let nAttackBonus = roll.total - roll.dice[0].results[0].result;
         let damageSource = dd.item ? dd.item : dd.action;
         let aDamageTypes = [];
+        let sCalledShotLocation = undefined; // TODO
         let damageType = damageSource?.system?.damage?.type;
         if (damageType){
             aDamageTypes.push(damageType);
         }        
 
-		if (roll.criticaled || true){
-			let crit = HackmasterCrits.generateRandomCrit(source, target, nTargetAc, nAttackBonus, aDamageTypes);
+		if (roll.criticaled){
+			let crit = HackmasterCrits.generateRandomCrit(source, target, nTargetAc, nAttackBonus, aDamageTypes, sCalledShotLocation);
 			let card = HackmasterCrits.createCritCard(crit);
 			Utilities.displayChatMessage(card, source);
 		}
@@ -59,7 +60,7 @@ export class HackmasterCrits {
         let nBaseSeverity = this.calculateBaseSeverity(nAttackerThaco, nTargetAc, nAttackBonus);
         let nSeverityDieRoll = this.rollPenetrateInBothDirection(8);
         let nFinalSeverity = Math.min(24, nBaseSeverity + nSeverityDieRoll);
-        return nFinalSeverityd;
+        return nFinalSeverity;
     }
 
     static forceCrit(sType, nSeverity, nLocation){
@@ -202,25 +203,29 @@ export class HackmasterCrits {
     }
 
     static getRandomHitLocation(rSource, rTarget, sCalledShotLocation){
-        // if (sCalledShotLocation){
-        //     let rHitRange = DataCommonPO.aHackmasterCalledShotsRanges[sCalledShotLocation];
-        //     if (rHitRange){
-        //         nHitLocationRoll = math.random(rHitRange.low, rHitRange.high);
-        //     }
-        // }
-        // if nHitLocationRoll then	
-        let nLocationDieType = 10000;
-        let nLocationHitModifier = 0;
-        let nSizeDifference = 0;
-        // let nSizeDifference = getSizeDifference(ActorManagerPO.getNode(rSource), ActorManagerPO.getNode(rTarget));
-        if (nSizeDifference > 0){
-            nLocationHitModifier = (1000 * nSizeDifference);
-        }
-        else if (nSizeDifference < 0){
-            nLocationDieType = nLocationDieType - (1000 * nSizeDifference);
+        let nHitLocationRoll = null;
+        
+        if (sCalledShotLocation){
+            let rHitRange = CritData.CalledShotLocationTable[sCalledShotLocation];
+            if (rHitRange){
+                nHitLocationRoll = this.getRandomNumber(rHitRange.low, rHitRange.high);
+            }
         }
 
-        let nHitLocationRoll = this.getRandomNumber(1, nLocationDieType) + nLocationHitModifier;
+        if (!nHitLocationRoll){
+            let nLocationDieType = 10000;
+            let nLocationHitModifier = 0;
+            let nSizeDifference = rSource.sizeCategory - rTarget.sizeCategory;
+            if (nSizeDifference > 0){
+                nLocationHitModifier = (1000 * nSizeDifference);
+            }
+            else if (nSizeDifference < 0){
+                nLocationDieType = nLocationDieType - (1000 * nSizeDifference);
+            }
+    
+            nHitLocationRoll = this.getRandomNumber(1, nLocationDieType) + nLocationHitModifier;
+        }
+        
         return this.getHitLocationFromNumber(nHitLocationRoll);
     }
 

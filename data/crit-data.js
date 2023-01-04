@@ -359,5 +359,17 @@ export class CritData {
 		}
 	};
 
+	static CalledShotLocationTable = {
+        ["abdomen"]: {low: 2436, high:3155},
+        ["arm"]: {low: 3821, high:5836},
+        ["eye"]: {low: 9824, high:9903},
+        ["groin"]: {low: 2331, high:2435},
+        ["hand"]: {low: 5909, high:6220},
+        ["head"]: {low: 9374, high:10000},
+        ["leg"]: {low: 1, high:2330},
+        ["neck"]: {low: 9101, high:9373},
+        ["tail"]: {low: 2406, high:2435},
+        ["torso"]: {low: 3156, high:3820}
+    };
 }
 
