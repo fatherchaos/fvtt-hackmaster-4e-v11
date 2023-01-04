@@ -6,6 +6,51 @@
 	background: rgb(240, 239, 209);
 }
 
+.crit-card .grid-container {
+	display: grid;
+	grid-template-columns: auto auto;
+	border: 1px groove;
+	border-radius: 5px;
+	background-color: red;
+	padding: 1px;
+	gap: 1px;
+	width: 100%;
+}     
+
+.crit-card .grid-item {
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 1px;
+	text-align: center;
+	white-space: nowrap ;
+	overflow: hidden ;
+	text-overflow: ellipsis ;     
+	padding-left: 5px;
+}                
+
+.crit-card .header{
+	font-weight:bold;
+}
+
+.crit-card .two-column{
+	grid-column: span 2;
+}
+
+.crit-card .crit-severity {
+	font-weight: bold;
+	font-size: 1.3em;
+	color:red;
+	text-align: center;
+}
+
+.crit-card .effects-list{
+	list-style-type: square;
+}
+
+.crit-card .effects-list li{
+	margin-top:5px;
+	margin-bottom: 5px;
+}
+
 .armor-tracker {
 	padding: 5px;
 	border: 1px groove black;

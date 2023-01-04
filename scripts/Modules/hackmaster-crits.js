@@ -42,9 +42,8 @@ export class HackmasterCrits {
             // if (bPermanentDamage){
             //     sResult += "<br/>[Permanent Penalties: Will not heal normally. 50% of ability reductions, movement penalties, etc. will remain permanently if left to heal naturally. If cured by magic, 25% will remain permanently. A Cure Critical Wounds spell can cure one critical injury per application if the wound has not been healed by another method and one week has not transpired. See other Cleric spells for other healing possibilities.]"
             // }
-            let nConstitution = 10;// ActorManagerPO.getConstitution(rTarget);// TODO
-            let nBruiseDays = this.getRandomNumber(1, 20 - nConstitution);
-            // sResult = sResult += "<br/>[Bruised: " + nBruiseDays + " days. If injured in same location again before healed, suffer +1 damage per injury.]"; 
+            let nBruiseDays = this.getRandomNumber(1, 20);
+            aResults.push("Bruised: (" + nBruiseDays + " - Constitution) days. If injured in same location again before healed, suffer +1 damage per injury."); 
             if (nSeverity > 5){
                 aResults.push("Unable to follow-through damage until wound healed.");
             }
@@ -386,10 +385,8 @@ export class HackmasterCrits {
         aEffects.push(this.createProfuseBleedingMessage(rTarget));
     }
 
-    static createProfuseBleedingMessage(rTarget){
-        let nConstitution = 10; // TODO ActorManagerPO.getConstitution(rTarget);
-        let nHalfCon = Math.max(1, Math.floor(nConstitution/2));
-        return "Profuse bleeding! Will bleed to death in " + nHalfCon + " rounds unless the wound has been treated by a successful first aid-related skill check or any cure spell that heals half the wound's HPs in damage, or one Cure Critical Wounds or better spell. Severed limbs may be cauterized by applying open flame for one round (1d4 damage)";
+    static createProfuseBleedingMessage(){
+        return "Profuse bleeding! Will bleed to death in Con/2 rounds unless the wound has been treated by a successful first aid-related skill check or any cure spell that heals half the wound's HPs in damage, or one Cure Critical Wounds or better spell. Severed limbs may be cauterized by applying open flame for one round (1d4 damage)";
     }
 
     static decodeVitalOrgan(aEffects, nIndex, nSeverity, rLocation, rTarget){
@@ -413,8 +410,7 @@ export class HackmasterCrits {
     }
 
     static decodeMuscleTear(aEffects, nIndex, nSeverity, rLocation, rTarget){
-        let nDays = Math.max(1, 20 - 10 /* TODO: ActorManagerPO.getConstitution(rTarget)*/);
-        aEffects.push("Muscle Tear (" + this.getMuscle(rLocation, nIndex) + ")! These wounds heal naturally at half normal rate. Any Dexterity and Strength reductions from this crit last for " + nDays + " days,) are reduced by half for like periods until reduce to zero. This lasting effect occurs regardless of whether the wounds have been healed fully by spells. A Cure Critical Wounds spell or better will eliminate all ill effects instantly.");
+        aEffects.push("Muscle Tear (" + this.getMuscle(rLocation, nIndex) + ")! These wounds heal naturally at half normal rate. Any Dexterity and Strength reductions from this crit last for 20 - Con days, are reduced by half for like periods until reduce to zero. This lasting effect occurs regardless of whether the wounds have been healed fully by spells. A Cure Critical Wounds spell or better will eliminate all ill effects instantly.");
         if (rLocation.isArm) {
             this.decodeWeaponDrop(aEffects, true);
         }
@@ -579,24 +575,24 @@ export class HackmasterCrits {
             return ""; // No point in saying the bonus damage can't exceed 100% of their hp.
         }
         else {
-            let nMaxHp = 20; // TODO: ActorManagerPO.getMaxHp(rTarget);
-            let nAffectedHp = Math.floor(nMaxHp * rLocation.dam);
+            //let nMaxHp = 20; // TODO: ActorManagerPO.getMaxHp(rTarget);
+            //let nAffectedHp = Math.floor(nMaxHp * rLocation.dam);
 
             if (rLocation.isDigit){
-                return "If bonus damage exceeds " + rLocation.dam * 100 + "% of health (" + nAffectedHp + "), affected body part is severed or destroyed.";
+                return "If bonus damage exceeds " + rLocation.dam * 100 + "% of health, affected body part is severed or destroyed.";
             }
             else {
                 // TODO: Once we calculate if it was severed, this could cause profuse bleeding
-                return "If bonus damage exceeds " + rLocation.dam * 100 + "% of health (" + nAffectedHp + "), affected body part is severed or destroyed. If severed, will cause " + this.createProfuseBleedingMessage(rTarget);
+                return "If bonus damage exceeds " + rLocation.dam * 100 + "% of health, affected body part is severed or destroyed. If severed, will cause " + this.createProfuseBleedingMessage(rTarget);
             }
         }
     }
 
     static decodeDamageBonus(aEffects, nDieType, rLocation, rTarget){
-        aEffects.push("Damage Bonus: (d" + nDieType + ") " + this.decodeMaxDamageBonus(rLocation, rTarget));
+        aEffects.push(this.decodeMaxDamageBonus(rLocation, rTarget));
     }
 
     static decodeDamageMultiplier(aEffects, nMultiplier, rLocation, rTarget){
-    	aEffects.push("Damage Multiplier: (x" + nMultiplier + ") " + this.decodeMaxDamageBonus(rLocation, rTarget));
+    	aEffects.push(this.decodeMaxDamageBonus(rLocation, rTarget));
     }
 }

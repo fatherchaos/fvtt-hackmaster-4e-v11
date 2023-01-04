@@ -58,7 +58,6 @@ export class HackmasterChatCommands{
                     effects: crit.aResults,
                     hasScar: crit.bHasScar ? "Yes" : "No",
                     isPermanent: crit.bPermanentDamage ? "Yes" : "No",
-                    bruiseDays: crit.nBruiseDays,
                     damageBonus: crit.dmgMultiplier !== undefined ? `x${crit.dmgMultiplier}` : crit.dmgBonusDie !== undefined ? `+d${crit.dmgBonusDie}` : ''
                 });
                 return card;
