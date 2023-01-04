@@ -30,6 +30,18 @@ export class HackmasterActor {
         return this._osricActor.type == 'npc';
     }
 
+    get thac0(){
+        return this._osricActor.system.attributes.thaco.value ?? 20;
+    }
+
+    get armorClass(){
+        return this._osricActor.system.armorClass;
+    }
+
+    get normalAc(){
+        return this.armorClass['normal'];
+    }
+
     defaultHonorIfNeeded(){
         if (!this._osricActor.system.honor){
             this._osricActor.system.honor = {value: 0, temp: 0, die: ""};

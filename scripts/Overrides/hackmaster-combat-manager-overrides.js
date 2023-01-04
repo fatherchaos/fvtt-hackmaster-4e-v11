@@ -1,6 +1,6 @@
 import { HackmasterActor } from '../Modules/hackmaster-actor.js';
 import { libWrapper } from '../shim.js';
-import { HackmasterCombatTrackerOverrides } from './hackmaster-combat-tracker-overrides.js';
+import { HackmasterCrits } from '../Modules/hackmaster-crits.js';
 
 export class HackmasterCombatManagerOverrides {
     static initialize(){
@@ -12,6 +12,15 @@ export class HackmasterCombatManagerOverrides {
 		Hooks.on('addAttackRollBonuses', (dd, targetToken, bonusFormula, additionalRollData) =>{
 			HackmasterCombatManagerOverrides.applyHonorToAttackRoll(dd, bonusFormula, additionalRollData);
 		});
+
+		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'game.osric.diceManager.osricAttackRoll', async function(wrapped, ...args) {
+			let roll = await wrapped(...args);
+			let dd = args[0];
+			let targetToken = args[1];
+
+			HackmasterCrits.handleCritCheck(roll, dd, targetToken);
+
+		}, 'WRAPPER');
 	}
 
 	static applyHonorToAttackRoll(dd, bonusFormula, additionalRollData){

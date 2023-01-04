@@ -1,5 +1,4 @@
 import { HackmasterCrits } from './hackmaster-crits.js';
-import { Utilities } from '../utilities.js'
 
 export class HackmasterChatCommands{
 
@@ -50,19 +49,8 @@ export class HackmasterChatCommands{
 
             if ((damageType === 'b' || damageType === 's' || damageType === 'c') && severity > 0 && location > 0){
                 let crit = HackmasterCrits.forceCrit(damageType, severity, location);
-
-                _templateCache["modules/hackmaster-4e/templates/crit-chat-card.hbs"]
-                let card = Utilities.loadCachedTemplate("modules/hackmaster-4e/templates/crit-chat-card.hbs", {
-                    severity: crit.nSeverity,
-                    hitLocation: crit.sHitLocation,
-                    effects: crit.aResults,
-                    hasScar: crit.bHasScar ? "Yes" : "No",
-                    isPermanent: crit.bPermanentDamage ? "Yes" : "No",
-                    damageBonus: crit.dmgMultiplier !== undefined ? `x${crit.dmgMultiplier}` : crit.dmgBonusDie !== undefined ? `+d${crit.dmgBonusDie}` : ''
-                });
-                return card;
+                return HackmasterCrits.createCritCard(crit);
             }
-             
         }
 
         return "Invalid command. Usage: /hmcrit [(s,p, or b)] [#severity (1-24)] [#location (1-10000)]";

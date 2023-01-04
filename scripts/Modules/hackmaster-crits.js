@@ -1,9 +1,23 @@
 import { CritData } from '../../data/crit-data.js';
+import { Hackmaster } from '../config.js';
+import { Utilities } from '../utilities.js'
+import { HackmasterActor } from './hackmaster-actor.js';
 
 export class HackmasterCrits {
-
+    
     static getRandomNumber(min, max){
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    static rollPenetrateInBothDirection(nNumSides){
+        let nValue = this.getRandomNumber(1, nNumSides);
+        if (nValue == nNumSides){
+            nValue = nValue + (this.rollPenetrateInBothDirection(nNumSides) - 1);
+        }
+        else if (nValue == 1){
+            nValue = nValue - (this.rollPenetrateInBothDirection(nNumSides) - 1);
+        }
+        return nValue;
     }
 
     static getDiceResult(numDice, dieFace){
@@ -14,6 +28,39 @@ export class HackmasterCrits {
         return total;
     }
 
+    static handleCritCheck(roll, dd, targetToken){
+		let source = new HackmasterActor(dd.source);
+		let target = targetToken?.actor ? new HackmasterActor(targetToken.actor) : null;
+        let nTargetAc = target?.armorClass[dd.ac] ?? 10;
+        let nAttackBonus = roll.total - roll.dice[0].results[0].result;
+        let damageSource = dd.item ? dd.item : dd.action;
+        let aDamageTypes = [];
+        let damageType = damageSource?.system?.damage?.type;
+        if (damageType){
+            aDamageTypes.push(damageType);
+        }        
+
+		if (roll.criticaled || true){
+			let crit = HackmasterCrits.generateRandomCrit(source, target, nTargetAc, nAttackBonus, aDamageTypes);
+			let card = HackmasterCrits.createCritCard(crit);
+			Utilities.displayChatMessage(card, source);
+		}
+	}
+
+    static generateRandomCrit(rSource, rTarget, nTargetAc, nAttackBonus, aDamageTypes, sCalledShotLocation,){
+        aDamageTypes = aDamageTypes ?? ['s']; // TODO: get real damage type
+        let severity = this.getCritSeverity(nAttackBonus, nTargetAc, rSource, rTarget);
+        let hitLocation = this.getRandomHitLocation(rSource, rTarget, sCalledShotLocation);
+        return this.getCritResult(severity, hitLocation, aDamageTypes, rSource, rTarget);
+    }
+
+    static getCritSeverity(nAttackBonus, nTargetAc, rSource, rTarget){
+        let nAttackerThaco = rSource.thac0;
+        let nBaseSeverity = this.calculateBaseSeverity(nAttackerThaco, nTargetAc, nAttackBonus);
+        let nSeverityDieRoll = this.rollPenetrateInBothDirection(8);
+        let nFinalSeverity = Math.min(24, nBaseSeverity + nSeverityDieRoll);
+        return nFinalSeverityd;
+    }
 
     static forceCrit(sType, nSeverity, nLocation){
         let rHitLocation = this.getHitLocationFromNumber(nLocation);
@@ -54,6 +101,7 @@ export class HackmasterCrits {
                 aResults.push("Unable to penetrate damage until wound healed");
             }
             
+            console.log("generating crit", rHitLocation.desc, nSeverity, aDamageTypes);
             let rCritEffect = this.getCritEffects(rHitLocation.desc, nSeverity, aDamageTypes);		
 
             aResults = aResults.concat(this.decodeCritEffect(rCritEffect, rHitLocation.desc, nSeverity, rTarget));
@@ -151,6 +199,29 @@ export class HackmasterCrits {
 
     static getHackingCrit(sLocation, nSeverity){
         return CritData.HackingCritMatrix[sLocation][nSeverity];
+    }
+
+    static getRandomHitLocation(rSource, rTarget, sCalledShotLocation){
+        // if (sCalledShotLocation){
+        //     let rHitRange = DataCommonPO.aHackmasterCalledShotsRanges[sCalledShotLocation];
+        //     if (rHitRange){
+        //         nHitLocationRoll = math.random(rHitRange.low, rHitRange.high);
+        //     }
+        // }
+        // if nHitLocationRoll then	
+        let nLocationDieType = 10000;
+        let nLocationHitModifier = 0;
+        let nSizeDifference = 0;
+        // let nSizeDifference = getSizeDifference(ActorManagerPO.getNode(rSource), ActorManagerPO.getNode(rTarget));
+        if (nSizeDifference > 0){
+            nLocationHitModifier = (1000 * nSizeDifference);
+        }
+        else if (nSizeDifference < 0){
+            nLocationDieType = nLocationDieType - (1000 * nSizeDifference);
+        }
+
+        let nHitLocationRoll = this.getRandomNumber(1, nLocationDieType) + nLocationHitModifier;
+        return this.getHitLocationFromNumber(nHitLocationRoll);
     }
 
     static getHitLocationFromNumber(nHitLocationRoll){
@@ -517,19 +588,19 @@ export class HackmasterCrits {
             sMsg = "Vital organ missed!"; bWasHit = false;
         }
         else if (nRollValue < 51) {
-            sMsg = "Vital organ (" + getOrgan(rLocation, nIndex) + ")! Lose " + this.getDiceResult(2, 6) + " points of " + sStatLost + ". 1 point returns per day for the next " + this.getRandomNumber(1, 6) + " day(s). Unreturned points are lost permanently.";
+            sMsg = "Vital organ (" + this.getOrgan(rLocation, nIndex) + ")! Lose " + this.getDiceResult(2, 6) + " points of " + sStatLost + ". 1 point returns per day for the next " + this.getRandomNumber(1, 6) + " day(s). Unreturned points are lost permanently.";
         }
         else if (nRollValue < 71) {
-            sMsg = "Vital organ (" + getOrgan(rLocation, nIndex) + ")! Death in " + this.getRandomNumber(1, 12) + " days";
+            sMsg = "Vital organ (" + this.getOrgan(rLocation, nIndex) + ")! Death in " + this.getRandomNumber(1, 12) + " days";
         }
         else if (nRollValue < 81) {
-            sMsg = "Vital organ (" + getOrgan(rLocation, nIndex) + ")! Death in " + this.getRandomNumber(1, 12) + " hours";
+            sMsg = "Vital organ (" + this.getOrgan(rLocation, nIndex) + ")! Death in " + this.getRandomNumber(1, 12) + " hours";
         }
         else if (nRollValue < 91) {
-             sMsg = "Vital organ (" + getOrgan(rLocation, nIndex) + ")! Death in " + this.getRandomNumber(1, 12) + " rounds";
+             sMsg = "Vital organ (" + this.getOrgan(rLocation, nIndex) + ")! Death in " + this.getRandomNumber(1, 12) + " rounds";
         }
         else {
-            sMsg = "Vital organ(" + getOrgan(rLocation, nIndex) + ")! Death in " + this.getRandomNumber(1, 12) + " segments";
+            sMsg = "Vital organ(" + this.getOrgan(rLocation, nIndex) + ")! Death in " + this.getRandomNumber(1, 12) + " segments";
         }
         return sMsg, bWasHit;
     }
@@ -594,5 +665,18 @@ export class HackmasterCrits {
 
     static decodeDamageMultiplier(aEffects, nMultiplier, rLocation, rTarget){
     	aEffects.push(this.decodeMaxDamageBonus(rLocation, rTarget));
+    }
+
+    static createCritCard(crit){
+        _templateCache["modules/hackmaster-4e/templates/crit-chat-card.hbs"]
+        let card = Utilities.loadCachedTemplate("modules/hackmaster-4e/templates/crit-chat-card.hbs", {
+            severity: crit.nSeverity,
+            hitLocation: crit.sHitLocation,
+            effects: crit.aResults.filter(e => e),
+            hasScar: crit.bHasScar ? "Yes" : "No",
+            isPermanent: crit.bPermanentDamage ? "Yes" : "No",
+            damageBonus: crit.dmgMultiplier !== undefined ? `x${crit.dmgMultiplier}` : crit.dmgBonusDie !== undefined ? `+d${crit.dmgBonusDie}` : ''
+        });
+        return card;
     }
 }
