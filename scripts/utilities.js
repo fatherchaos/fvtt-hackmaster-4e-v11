@@ -4,6 +4,13 @@ export class Utilities {
         return line.replace(regex, replaceWith);
     }
 
+    static countOriginalDiceInRoll(roll){
+        if (!roll || !roll.dice){
+            return 0;
+        }
+        return Utilities.sumArray(roll.dice.map(d => d.number));
+    }
+
     static loadCachedTemplate(path, context){
         return _templateCache[path](context || {}, {allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true});
     }
@@ -40,5 +47,12 @@ export class Utilities {
             Utilities.getRandomNumber(1, dieFace);
         }
         return total;
+    }
+
+    static sumArray(array){
+        if (array){
+            return array.reduce((partialSum, a) => partialSum + a, 0);
+        }
+        return 0;
     }
 }

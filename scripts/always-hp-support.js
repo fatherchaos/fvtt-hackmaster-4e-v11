@@ -57,8 +57,10 @@ export class AlwaysHpSupport{
     async changeArmorTypeItemDamage(token, armorItem, amount){
         if (armorItem && amount){
             let actualChange = await armorItem.damageArmor(amount);
-            token.hud.createScrollingText((-actualChange).signedString(), {
-                anchor: CONST.TEXT_ANCHOR_POINTS.TOP,
+            canvas.interface.createScrollingText(token.center, (-amount).signedString(), {
+                anchor: CONST.TEXT_ANCHOR_POINTS.CENTER,
+                direction: amount > 0 ? CONST.TEXT_ANCHOR_POINTS.BOTTOM : CONST.TEXT_ANCHOR_POINTS.TOP,
+                distance: token.h,
                 fontSize: 32,
                 fill: (actualChange > 0 ? 16746240 : 16746495),
                 stroke: 0x000000,
@@ -70,7 +72,7 @@ export class AlwaysHpSupport{
 
     getEquippedArmor(token){
         let allArmor = token.actor.items
-            .filter(i => i.type === "armor" && i.data.data.protection.type == "armor")
+            .filter(i => i.type === "armor" && i.system.protection.type == "armor")
             .map(a => new ArmorInfo(a));
 
         return allArmor.find(a => a.isEquipped);
@@ -78,7 +80,7 @@ export class AlwaysHpSupport{
 
     getEquippedShield(token){
         let allShields = token.actor.items
-            .filter(i => i.type === "armor" && i.data.data.protection.type == "shield")
+            .filter(i => i.type === "armor" && i.system.protection.type == "shield")
             .map(a => new ArmorInfo(a));
 
         return allShields.find(a => a.isEquipped);

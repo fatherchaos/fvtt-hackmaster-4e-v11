@@ -1,3 +1,4 @@
+import { HackmasterItem } from "./hackmaster-item.js";
 import { HonorCalculator } from "./honor-calculator.js";
 
 export class HackmasterActor {
@@ -5,6 +6,23 @@ export class HackmasterActor {
     constructor(osricActor) {
         this._osricActor = osricActor;
         this.defaultHonorIfNeeded();
+    }
+
+    getItems(){
+        let items = this._osricActor?.items ?? [];
+        return items.map(i => new HackmasterItem(i));
+    }
+
+    getEquippedArmors(){
+        return this.getItems()
+            .filter(i => i.isArmor && i.isEquipped)
+            .map(a => a.getArmorInfo());
+    }
+
+    getEquippedShields(){
+        return this.getItems()
+            .filter(i => i.isShield && i.isEquipped)
+            .map(a => a.getArmorInfo());
     }
 
     get isProtegee(){

@@ -1,7 +1,6 @@
 import { CritData } from '../../data/crit-data.js';
 import { Hackmaster } from '../config.js';
 import { Utilities } from '../utilities.js'
-import { HackmasterActor } from './hackmaster-actor.js';
 
 export class HackmasterCrits {
 
@@ -11,26 +10,6 @@ export class HackmasterCrits {
         return this.generateRandomCrit(source, target, targetAc, attackBonus, aDamageTypes, calledShotLocationName);
     }
    
-    static handleCritCheck(roll, dd, targetToken){
-		let source = new HackmasterActor(dd.source);
-		let target = new HackmasterActor(targetToken?.actor);
-        let nTargetAc = target.getArmorClass(dd.ac);
-        let nAttackBonus = roll.total - roll.dice[0].results[0].result;
-        let damageSource = dd.item ? dd.item : dd.action;
-        let aDamageTypes = [];
-        let sCalledShotLocation = undefined; // TODO
-        let damageType = damageSource?.system?.damage?.type;
-        if (damageType){
-            aDamageTypes.push(damageType);
-        }        
-
-		if (roll.criticaled){
-			let crit = HackmasterCrits.generateRandomCrit(source, target, nTargetAc, nAttackBonus, aDamageTypes, sCalledShotLocation);
-			let card = HackmasterCrits.createCritCard(crit);
-			Utilities.displayChatMessage(card, source);
-		}
-	}
-
     static generateRandomCrit(rSource, rTarget, nTargetAc, nAttackBonus, aDamageTypes, sCalledShotLocation,){
         aDamageTypes = aDamageTypes ?? ['s']; // TODO: get real damage type
         let severity = this.getCritSeverity(nAttackBonus, nTargetAc, rSource, rTarget);
