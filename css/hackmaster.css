@@ -2,6 +2,41 @@
 	display: none;
 }
 
+.armor-damage-card {
+	background: rgb(240, 239, 209);
+}
+
+.armor-damage-card .header{
+	font-weight:bold;
+}
+
+.armor-damage-card .grid-container {
+	display: grid;
+	grid-template-columns: auto auto;
+	border: 1px groove;
+	border-radius: 5px;
+	padding: 1px;
+	gap: 1px;
+	width: 100%;
+}  
+
+.armor-damage-card .grid-item {
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 1px;
+	text-align: center;
+	white-space: nowrap ;
+	overflow: hidden ;
+	text-overflow: ellipsis ;     
+	padding-left: 5px;
+}   
+
+.armor-damage-card .armor-name {
+	font-weight: bold;
+	font-size: 1.3em;
+	color:black;
+	text-align: center;
+}
+
 .crit-card {
 	background: rgb(240, 239, 209);
 }
@@ -31,7 +66,7 @@
 	font-weight:bold;
 }
 
-.crit-card .two-column{
+.two-column{
 	grid-column: span 2;
 }
 

@@ -11,6 +11,14 @@ export class Utilities {
         return Utilities.sumArray(roll.dice.map(d => d.number));
     }
 
+    static countNumPenetrationsInRoll(roll){
+        if (!roll || !roll.dice){
+            return 0;
+        }
+
+        return Utilities.sumArray(roll.dice.map(d => Math.max(0, d.results.length - d.number)));
+    }
+
     static loadCachedTemplate(path, context){
         return _templateCache[path](context || {}, {allowProtoMethodsByDefault: true, allowProtoPropertiesByDefault: true});
     }
@@ -54,5 +62,9 @@ export class Utilities {
             return array.reduce((partialSum, a) => partialSum + a, 0);
         }
         return 0;
+    }
+
+    static intersection(array1, array2){
+        return array1.filter(value => array2.includes(value));
     }
 }

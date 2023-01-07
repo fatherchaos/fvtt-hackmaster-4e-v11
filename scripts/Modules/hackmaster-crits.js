@@ -635,7 +635,6 @@ export class HackmasterCrits {
     }
 
     static createCritCard(crit){
-        _templateCache["modules/hackmaster-4e/templates/crit-chat-card.hbs"]
         let card = Utilities.loadCachedTemplate("modules/hackmaster-4e/templates/crit-chat-card.hbs", {
             severity: crit.nSeverity,
             hitLocation: crit.sHitLocation,

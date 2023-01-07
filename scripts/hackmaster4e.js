@@ -17,7 +17,8 @@ function loadHackmasterTemplates(){
     'modules/hackmaster-4e/templates/item-armor-damage-fields.hbs',
     'modules/hackmaster-4e/templates/always-hp-armor-section.hbs',
     'modules/hackmaster-4e/templates/actor-honor-section.hbs',
-    'modules/hackmaster-4e/templates/crit-chat-card.hbs'
+    'modules/hackmaster-4e/templates/crit-chat-card.hbs',
+    'modules/hackmaster-4e/templates/armor-damage-card.hbs'
   ]);
   console.log("pre-loading HM4 templates - finish");
 }

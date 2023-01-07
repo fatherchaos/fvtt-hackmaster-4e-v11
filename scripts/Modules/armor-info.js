@@ -15,6 +15,10 @@ export class ArmorInfo{
         this.setFlag(flag, !this.getFlag(flag));
     }
 
+    get isMagic() {
+        return this._itemData?.isMagic ?? false;
+    }
+
     get id(){
         return this._itemData?.id;
     }
@@ -29,6 +33,10 @@ export class ArmorInfo{
 
     get armorDamageData(){
         return this.protectionData?.armorDamage;
+    }
+
+    get soakPerDie(){
+        return this.protectionData?.armorDamage?.soak ?? 1;
     }
 
     get isShield(){

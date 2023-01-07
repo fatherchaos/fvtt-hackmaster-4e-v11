@@ -37,7 +37,7 @@ export class HackmasterItem {
         if (itemType === "armor"){
             let armorsList = sheet._element.find(".armors-list");
             if (armorsList){
-                let armorDamageInfo = sheet.object.data.data.protection.armorDamage;
+                let armorDamageInfo = sheet.object.system.protection.armorDamage;
                 let fieldHtml = await this.buildArmorDamageFields(armorDamageInfo);
                 $(fieldHtml).insertAfter(armorsList);
             }

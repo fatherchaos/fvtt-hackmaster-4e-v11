@@ -5,28 +5,45 @@ import { Utilities } from '../utilities.js'
 export class HackmasterCombatManager{
 
     static async applyArmorSoak(dmgAdjustResult, sourceActor, targetToken, sourceItem, sourceAction, bDamage, dmgDone, ammo = null){
-        // dmgAdjustResult =  ({ total: damageTotalDone, types: damageTypes, absorbed: absorbedTotal })
-        // TODO: Check for soakable damage types
-        if (targetToken?.actor){
+        let hasUnsoakableDamageTypes = Utilities.intersection(["pyschic", "poison"], dmgAdjustResult.types).length > 0;
+        if (!hasUnsoakableDamageTypes && targetToken?.actor){
             let target = new HackmasterActor(targetToken.actor);
             let armors = target.getEquippedArmors();
-            // TODO: What to do if there's more than one? Right now we're just grabbing the first.
+            
             if (armors.length > 0){
-                let armor = armors[0];
-                // TODO: allow more than one soak per die
+                let armor = armors[0]; // TODO: What to do if there's more than one? Right now we're just grabbing the first.
+                let soakPerDie = armor.soakPerDie;
                 let numDiceDamage =  Utilities.sumArray(dmgDone.map(d => Utilities.countOriginalDiceInRoll(d.roll)));
-                let amountToSoak = Math.min(dmgAdjustResult.total, armor.hpRemaining, numDiceDamage);
+                let amountToSoak = Math.min(dmgAdjustResult.total, armor.hpRemaining, numDiceDamage * soakPerDie);
                 if (amountToSoak > 0){
                     dmgAdjustResult.absorbed += amountToSoak;
                     dmgAdjustResult.total -= amountToSoak;
-                    // TODO: Determine if armor should be damaged. Check if it's magical, if there was penetration, if it was magic damage
-                    armor.damageArmor(amountToSoak);
-                    // TODO: Report a chat card?
+                    let armorDamageAmount = amountToSoak;
+
+                    // If it's bludgeoning, piercing, or slashing damage and the armor is magic, it should only be hurt by penetrations.
+                    let hasOnlyStandardDamageTypes = dmgAdjustResult.types.every(t => ["bludgeoning", "slashing", "piercing"].includes(t));
+                    if (armor.isMagic && hasOnlyStandardDamageTypes){
+                        let numPenetrationsOnDice = Utilities.sumArray(dmgDone.map(d => Utilities.countNumPenetrationsInRoll(d.roll)));
+                        armorDamageAmount = numPenetrationsOnDice;
+                    }
+                    armor.damageArmor(armorDamageAmount);
+                    
+                    let armorDamageCard = await HackmasterCombatManager.createArmorDamageCard(armor, amountToSoak, armorDamageAmount); 
+                    Utilities.displayChatMessage(armorDamageCard);
                 }
             }
             
         }
         return dmgAdjustResult;
+    }
+
+    static async createArmorDamageCard(armor, amountSoaked, amountDamaged){
+        let card = Utilities.loadCachedTemplate("modules/hackmaster-4e/templates/armor-damage-card.hbs", {
+            armorName: armor.name,
+            amountSoaked: amountSoaked,
+            amountDamaged: amountDamaged
+        });
+        return card;
     }
 
     static async reRollInitiative(combatTracker) {

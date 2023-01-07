@@ -26,6 +26,10 @@ export class HackmasterItem{
         return this._osricItem?.system?.location?.state == game.osric.library.const.location.EQUIPPED;        
     }
 
+    get isMagic() {
+        return this._osricItem?.isMagic ?? false;
+    }
+
     getArmorInfo(){
         if (this.isArmor || this.isShield){
             return new ArmorInfo(this._osricItem);
