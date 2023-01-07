@@ -22,6 +22,9 @@
                     <th>
                         <label data-label="Category">Category</label>
                     </th>
+                    <th>
+                        <label data-label="IsProtegee">Is Protegee?</label>
+                    </th>
                 </tr>
                 <tr>
                     <td>
@@ -32,6 +35,9 @@
                     </td>
                     <td>
                         <label data-label="Category">{{category}}</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="system.isProtegee" {{checked isProtegee}} " />
                     </td>
                 </tr>
             </tbody>

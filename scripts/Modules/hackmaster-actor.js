@@ -7,6 +7,10 @@ export class HackmasterActor {
         this.defaultHonorIfNeeded();
     }
 
+    get isProtegee(){
+        return this._osricActor?.system?.isProtegee ?? false;
+    }
+
     get temporaryHonor(){
         return this._osricActor?.system?.honor?.temp ?? 0;
     }

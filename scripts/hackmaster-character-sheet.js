@@ -54,7 +54,8 @@ export class HackmasterCharacterSheet {
 			honor: hmActor.honor, 
 			temp: hmActor.temporaryHonor,
 			die: hmActor.getHonorDie(),
-			category: hmActor.getHonorStateDescription()
+			category: hmActor.getHonorStateDescription(),
+			isProtegee: hmActor.isProtegee
 		};
 		return await renderTemplate("modules/hackmaster-4e/templates/actor-honor-section.hbs", result );
 	}
