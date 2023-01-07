@@ -18,4 +18,27 @@ export class Utilities {
         };
         ChatMessage.create(chatData);
     }
+
+    static getRandomNumber(min, max){
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    static rollPenetrateInBothDirection(nNumSides){
+        let nValue = Utilities.getRandomNumber(1, nNumSides);
+        if (nValue == nNumSides){
+            nValue = nValue + (Utilities.rollPenetrateInBothDirection(nNumSides) - 1);
+        }
+        else if (nValue == 1){
+            nValue = nValue - (Utilities.rollPenetrateInBothDirection(nNumSides) - 1);
+        }
+        return nValue;
+    }
+
+    static getDiceResult(numDice, dieFace){
+        let total = 0;
+        for(let i = 0; i < numDice; i++){
+            Utilities.getRandomNumber(1, dieFace);
+        }
+        return total;
+    }
 }

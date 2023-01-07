@@ -1,9 +1,13 @@
+import { HackmasterActor } from './hackmaster-actor.js';
 import { HackmasterCrits } from './hackmaster-crits.js';
+import { CritData } from '../../data/crit-data.js';
+import { Utilities } from '../utilities.js'
 
 export class HackmasterChatCommands{
 
     static CommandMap = {
-        ["/hmcrit"]: HackmasterChatCommands.HandleCritCommand
+        ["/hmcrit"]: HackmasterChatCommands.HandleForcedCritCommand,
+        ["/crit"]: HackmasterChatCommands.HandleRandomCritCommand
     };
         
     static initialize(){
@@ -40,7 +44,7 @@ export class HackmasterChatCommands{
         return messageText.trim();
     }
 
-    static HandleCritCommand(args){
+    static HandleForcedCritCommand(args){
         if (args.length == 3)
         {
             let damageType = args[0];
@@ -53,6 +57,26 @@ export class HackmasterChatCommands{
             }
         }
 
-        return "Invalid command. Usage: /hmcrit [(s,p, or b)] [#severity (1-24)] [#location (1-10000)]";
+        return "Invalid command. Usage: /hmcrit [(s,p,b)] [#severity (1-24)] [#location (1-10000)]";
+    }
+
+    static HandleRandomCritCommand(args){
+        if (args.length <= 3){
+            let damageType = args[0];
+            let attackBonus = parseInt(args.length > 1 ? args[1] : 0);
+            attackBonus = isNaN(attackBonus) ? 0 : attackBonus;
+            let calledShotLocationName = args.length == 3 ? args[2].toLowerCase() : undefined;
+            if ((!calledShotLocationName || Object.keys(CritData.CalledShotLocationTable).includes(calledShotLocationName))
+                && (damageType === 'b' || damageType === 's' || damageType === 'c') 
+                && canvas.tokens.controlled.length == 1
+                && game.user.targets?.size == 1) {
+                    let source = new HackmasterActor(canvas.tokens.controlled[0].actor);
+                    let target = new HackmasterActor(Array.from(game.user.targets)[0].actor);
+                    let crit = HackmasterCrits.rollCritForTarget(source, target, damageType, attackBonus, calledShotLocationName);
+                    return HackmasterCrits.createCritCard(crit);
+            }
+        }
+
+        return "Invalid command. Usage: select your token, target exactly 1 token, and then /crit [(s,p,b)] [*#attackBonus] [*called shot (abdomen, arm, eye, groin, hand, head, leg, neck, tail, torso]";
     }
 }

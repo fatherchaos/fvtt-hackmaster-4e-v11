@@ -4,30 +4,13 @@ import { Utilities } from '../utilities.js'
 import { HackmasterActor } from './hackmaster-actor.js';
 
 export class HackmasterCrits {
+
+    static rollCritForTarget(source, target, damageType, attackBonus, calledShotLocationName){
+        let targetAc = target.normalAc;
+        let aDamageTypes = [damageType];
+        return this.generateRandomCrit(source, target, targetAc, attackBonus, aDamageTypes, calledShotLocationName);
+    }
    
-    static getRandomNumber(min, max){
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    static rollPenetrateInBothDirection(nNumSides){
-        let nValue = this.getRandomNumber(1, nNumSides);
-        if (nValue == nNumSides){
-            nValue = nValue + (this.rollPenetrateInBothDirection(nNumSides) - 1);
-        }
-        else if (nValue == 1){
-            nValue = nValue - (this.rollPenetrateInBothDirection(nNumSides) - 1);
-        }
-        return nValue;
-    }
-
-    static getDiceResult(numDice, dieFace){
-        let total = 0;
-        for(let i = 0; i < numDice; i++){
-            this.getRandomNumber(1, dieFace);
-        }
-        return total;
-    }
-
     static handleCritCheck(roll, dd, targetToken){
 		let source = new HackmasterActor(dd.source);
 		let target = new HackmasterActor(targetToken?.actor);
@@ -58,7 +41,7 @@ export class HackmasterCrits {
     static getCritSeverity(nAttackBonus, nTargetAc, rSource, rTarget){
         let nAttackerThaco = rSource.thac0;
         let nBaseSeverity = this.calculateBaseSeverity(nAttackerThaco, nTargetAc, nAttackBonus);
-        let nSeverityDieRoll = this.rollPenetrateInBothDirection(8);
+        let nSeverityDieRoll = Utilities.rollPenetrateInBothDirection(8);
         let nFinalSeverity = Math.min(24, nBaseSeverity + nSeverityDieRoll);
         return nFinalSeverity;
     }
@@ -79,7 +62,7 @@ export class HackmasterCrits {
             aResults.push("No extra effect.");
         }
         else{ 
-            let bHasScar = this.getRandomNumber(1, 100) <= 5 * nSeverity;
+            let bHasScar = Utilities.getRandomNumber(1, 100) <= 5 * nSeverity;
             let bPermanentDamage = nSeverity >= 13;
             // if (bHasScar){
             //     sResult += "<br/>[Will Scar?: Yes]";
@@ -90,7 +73,7 @@ export class HackmasterCrits {
             // if (bPermanentDamage){
             //     sResult += "<br/>[Permanent Penalties: Will not heal normally. 50% of ability reductions, movement penalties, etc. will remain permanently if left to heal naturally. If cured by magic, 25% will remain permanently. A Cure Critical Wounds spell can cure one critical injury per application if the wound has not been healed by another method and one week has not transpired. See other Cleric spells for other healing possibilities.]"
             // }
-            let nBruiseDays = this.getRandomNumber(1, 20);
+            let nBruiseDays = Utilities.getRandomNumber(1, 20);
             aResults.push("Bruised: (" + nBruiseDays + " - Constitution) days. If injured in same location again before healed, suffer +1 damage per injury."); 
             if (nSeverity > 5){
                 aResults.push("Unable to follow-through damage until wound healed.");
@@ -158,7 +141,7 @@ export class HackmasterCrits {
         if (!aCritDamageTypes || aCritDamageTypes.length == 0){
             return nil;
         }
-        return aCritDamageTypes[this.getRandomNumber(1, aCritDamageTypes.length) - 1];
+        return aCritDamageTypes[Utilities.getRandomNumber(1, aCritDamageTypes.length) - 1];
     }
 
     static getCritType(aDamageTypes){
@@ -191,15 +174,15 @@ export class HackmasterCrits {
     }
 
     static getPuncturingCrit(sLocation, nSeverity){
-        return CritData.PiercingCritMatrix[sLocation][nSeverity];
+        return CritData.PiercingCritMatrix[sLocation][nSeverity - 1];
     }
 
     static getCrushingCrit(sLocation, nSeverity){
-        return CritData.CrushingCritMatrix[sLocation][nSeverity];
+        return CritData.CrushingCritMatrix[sLocation][nSeverity - 1];
     }
 
     static getHackingCrit(sLocation, nSeverity){
-        return CritData.HackingCritMatrix[sLocation][nSeverity];
+        return CritData.HackingCritMatrix[sLocation][nSeverity - 1];
     }
 
     static getRandomHitLocation(rSource, rTarget, sCalledShotLocation){
@@ -208,7 +191,7 @@ export class HackmasterCrits {
         if (sCalledShotLocation){
             let rHitRange = CritData.CalledShotLocationTable[sCalledShotLocation];
             if (rHitRange){
-                nHitLocationRoll = this.getRandomNumber(rHitRange.low, rHitRange.high);
+                nHitLocationRoll = Utilities.getRandomNumber(rHitRange.low, rHitRange.high);
             }
         }
 
@@ -223,7 +206,7 @@ export class HackmasterCrits {
                 nLocationDieType = nLocationDieType - (1000 * nSizeDifference);
             }
     
-            nHitLocationRoll = this.getRandomNumber(1, nLocationDieType) + nLocationHitModifier;
+            nHitLocationRoll = Utilities.getRandomNumber(1, nLocationDieType) + nLocationHitModifier;
         }
         
         return this.getHitLocationFromNumber(nHitLocationRoll);
@@ -404,10 +387,10 @@ export class HackmasterCrits {
     }
 
     static decodeMinorConcussion(aEffects, nSeverity){
-        let nDuration = this.getRandomNumber(1, 12) + nSeverity;
+        let nDuration = Utilities.getRandomNumber(1, 12) + nSeverity;
         
         let sFlaws = "the migraine flaw (PHB 94)";
-        if (this.getRandomNumber(1, 100) <= 3 * nSeverity){
+        if (Utilities.getRandomNumber(1, 100) <= 3 * nSeverity){
             sFlaws += " and the seizure disorder character flaw (PHB 94)"
         }
         aEffects.push("Gains " + sFlaws + " with an immediate headache. Lasts " + nDuration + " hours or until healed.");
@@ -415,7 +398,7 @@ export class HackmasterCrits {
 
     static decodeSevereConcussion(aEffects, nSeverity){
         let sFlaws = "the migraine flaw (PHB 94)";
-        if (this.getRandomNumber(1, 100) <= 5 * nSeverity){
+        if (Utilities.getRandomNumber(1, 100) <= 5 * nSeverity){
             sFlaws += " and the seizure disorder character flaw (PHB 94)"
         }
         aEffects.push("Gains " + sFlaws + " with an immediate headache. Lasts until healed.");
@@ -447,7 +430,7 @@ export class HackmasterCrits {
             sCannotMove = "anything but their head";
         }
         let sMsg = "";
-        if (this.getRandomNumber(1, 100) <= nSeverity * 5){
+        if (Utilities.getRandomNumber(1, 100) <= nSeverity * 5){
             sMsg = "Paralyzed. Cannot move " + sCannotMove;
         }
         else {
@@ -471,7 +454,7 @@ export class HackmasterCrits {
         if (bWasHit){
             this.decodeWeaponDrop(aEffects);
             this.decodeInternalBleeding(aEffects);
-            if (this.getRandomNumber(1, 100) <= 3 * nSeverity){
+            if (Utilities.getRandomNumber(1, 100) <= 3 * nSeverity){
                 this.decodeProfuseBleeding(aEffects, rTarget);
             }
             if (rLocation.isHead || rLocation.isSpine){
@@ -490,7 +473,7 @@ export class HackmasterCrits {
         if (rLocation.isArm) {
             this.decodeWeaponDrop(aEffects, true);
         }
-        if (this.getRandomNumber(1, 100) <= 3 * nSeverity){
+        if (Utilities.getRandomNumber(1, 100) <= 3 * nSeverity){
             this.decodeProfuseBleeding(aEffects, rTarget);
         }
     }
@@ -527,11 +510,11 @@ export class HackmasterCrits {
         }
 
 	    if (rLocation.isTorso){
-            if (this.getRandomNumber(1, 100) <= nExtraEffectChance){
+            if (Utilities.getRandomNumber(1, 100) <= nExtraEffectChance){
                 this.decodeProfuseBleeding(aEffects, rTarget);
             }
             
-            if (this.getRandomNumber(1, 100) <= nExtraEffectChance){
+            if (Utilities.getRandomNumber(1, 100) <= nExtraEffectChance){
                 this.decodeInternalBleeding(aEffects);
             }
         }
@@ -552,7 +535,7 @@ export class HackmasterCrits {
             this.decodeParalyzation(aEffects, nSeverity, rLocation);
         }
         
-        if (this.getRandomNumber(1, 100) <= 30){
+        if (Utilities.getRandomNumber(1, 100) <= 30){
             this.decodeProfuseBleeding(aEffects, rTarget);
         }
     }
@@ -575,12 +558,12 @@ export class HackmasterCrits {
 
     static rollVitalOrganDamage(rLocation, nIndex, nRollValue){
         if (!nRollValue){
-            nRollValue = this.getRandomNumber(1, 100);
+            nRollValue = Utilities.getRandomNumber(1, 100);
         } 
         
         let sStatLost = "Constitution";
         if (rLocation.isHead || rLocation.isSpine){
-            if (this.getRandomNumber(1, 100) <= 80){
+            if (Utilities.getRandomNumber(1, 100) <= 80){
                 sStatLost = "Intelligence";
             }
             else{
@@ -593,19 +576,19 @@ export class HackmasterCrits {
             sMsg = "Vital organ missed!"; bWasHit = false;
         }
         else if (nRollValue < 51) {
-            sMsg = "Vital organ (" + this.getOrgan(rLocation, nIndex) + ")! Lose " + this.getDiceResult(2, 6) + " points of " + sStatLost + ". 1 point returns per day for the next " + this.getRandomNumber(1, 6) + " day(s). Unreturned points are lost permanently.";
+            sMsg = "Vital organ (" + this.getOrgan(rLocation, nIndex) + ")! Lose " + Utilities.getDiceResult(2, 6) + " points of " + sStatLost + ". 1 point returns per day for the next " + Utilities.getRandomNumber(1, 6) + " day(s). Unreturned points are lost permanently.";
         }
         else if (nRollValue < 71) {
-            sMsg = "Vital organ (" + this.getOrgan(rLocation, nIndex) + ")! Death in " + this.getRandomNumber(1, 12) + " days";
+            sMsg = "Vital organ (" + this.getOrgan(rLocation, nIndex) + ")! Death in " + Utilities.getRandomNumber(1, 12) + " days";
         }
         else if (nRollValue < 81) {
-            sMsg = "Vital organ (" + this.getOrgan(rLocation, nIndex) + ")! Death in " + this.getRandomNumber(1, 12) + " hours";
+            sMsg = "Vital organ (" + this.getOrgan(rLocation, nIndex) + ")! Death in " + Utilities.getRandomNumber(1, 12) + " hours";
         }
         else if (nRollValue < 91) {
-             sMsg = "Vital organ (" + this.getOrgan(rLocation, nIndex) + ")! Death in " + this.getRandomNumber(1, 12) + " rounds";
+             sMsg = "Vital organ (" + this.getOrgan(rLocation, nIndex) + ")! Death in " + Utilities.getRandomNumber(1, 12) + " rounds";
         }
         else {
-            sMsg = "Vital organ(" + this.getOrgan(rLocation, nIndex) + ")! Death in " + this.getRandomNumber(1, 12) + " segments";
+            sMsg = "Vital organ(" + this.getOrgan(rLocation, nIndex) + ")! Death in " + Utilities.getRandomNumber(1, 12) + " segments";
         }
         return sMsg, bWasHit;
     }
@@ -613,34 +596,34 @@ export class HackmasterCrits {
     static decodeMovement(aEffects, nValue){
         let sMsg = "";
         if (nValue == 1){
-             sMsg = "Lose 50% move for 1 rd,) 10% for " + this.getDiceResult(2, 4) + " rds";
+             sMsg = "Lose 50% move for 1 rd,) 10% for " + Utilities.getDiceResult(2, 4) + " rds";
         }
         else if (nValue == 2) {
-            sMsg =  "Lose 50% move for 2 rds,) 25% for " + this.getDiceResult(2, 10) + " rds";
+            sMsg =  "Lose 50% move for 2 rds,) 25% for " + Utilities.getDiceResult(2, 10) + " rds";
         }
         else if (nValue == 3) {
-            sMsg =  "Lose 50% move for 1 rd, 10% for " + this.getDiceResult(2, 4) + " rds,) 25% for " + this.getDiceResult(1, 4) + " turns";
+            sMsg =  "Lose 50% move for 1 rd, 10% for " + Utilities.getDiceResult(2, 4) + " rds,) 25% for " + Utilities.getDiceResult(1, 4) + " turns";
         }
         else if (nValue == 4) {
-            sMsg =  "Lose 50% move for " + this.getDiceResult(1, 12) + " hours";
+            sMsg =  "Lose 50% move for " + Utilities.getDiceResult(1, 12) + " hours";
         }
         else if (nValue == 5) {
-            sMsg =  "Lose 50% move for " + this.getDiceResult(1, 12) + " hours,) 25% for " + this.getDiceResult(1, 12) + " days";
+            sMsg =  "Lose 50% move for " + Utilities.getDiceResult(1, 12) + " hours,) 25% for " + Utilities.getDiceResult(1, 12) + " days";
         }
         else if (nValue == 6) {
-            sMsg =  "Lose 75% move for 6 hours,) 50% for " + this.getDiceResult(2, 12) + " days";
+            sMsg =  "Lose 75% move for 6 hours,) 50% for " + Utilities.getDiceResult(2, 12) + " days";
         }
         else if (nValue == 7) {
-            sMsg =  "Lose 75% move for 6 hours,) 50% for " + this.getDiceResult(4, 12) + " days";
+            sMsg =  "Lose 75% move for 6 hours,) 50% for " + Utilities.getDiceResult(4, 12) + " days";
         }
         else if (nValue == 8) {
-            sMsg =  "Lose 75% move for 6 hours,) 50% for " + this.getDiceResult(1, 3) + " months";
+            sMsg =  "Lose 75% move for 6 hours,) 50% for " + Utilities.getDiceResult(1, 3) + " months";
         }
         else if (nValue == 9) {
-            sMsg =  "Lose 75% move for 1 day,) 50% for " + this.getDiceResult(1, 4) + " months";
+            sMsg =  "Lose 75% move for 1 day,) 50% for " + Utilities.getDiceResult(1, 4) + " months";
         }
         else {
-            sMsg =  "Lose 75% move for 1 week,) 50% for " + this.getDiceResult(1, 6) + " months";
+            sMsg =  "Lose 75% move for 1 week,) 50% for " + Utilities.getDiceResult(1, 6) + " months";
         }
         
         aEffects.push(sMsg);
