@@ -93,9 +93,13 @@ export class HackmasterActor {
         }
     }
 
+    get rawHonorState(){
+        return this._osricActor?.system?.honorState ?? 0
+    }
+
     getHonorState() {
         if (this.isNpc){
-            return this._osricActor?.honorState ?? 0;
+            return this.rawHonorState;
         }
 
         return HonorCalculator.getHonorState(this.effectiveLevel, this.honor);

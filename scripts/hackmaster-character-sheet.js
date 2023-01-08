@@ -50,14 +50,25 @@ export class HackmasterCharacterSheet {
 
 	async buildHonorSection(){
 		let hmActor = new HackmasterActor(this.actor);
-		let result = {
-			honor: hmActor.honor, 
-			temp: hmActor.temporaryHonor,
-			die: hmActor.getHonorDie(),
-			category: hmActor.getHonorStateDescription(),
-			isProtegee: hmActor.isProtegee
-		};
-		return await renderTemplate("modules/hackmaster-4e/templates/actor-honor-section.hbs", result );
+		if (hmActor.isNpc){
+			let result = {
+				honorState: hmActor.rawHonorState, 
+			};
+			return await renderTemplate("modules/hackmaster-4e/templates/npc-honor-section.hbs", result );
+
+		}
+		else{
+			let result = {
+				honor: hmActor.honor, 
+				temp: hmActor.temporaryHonor,
+				die: hmActor.getHonorDie(),
+				category: hmActor.getHonorStateDescription(),
+				isProtegee: hmActor.isProtegee
+			};
+			return await renderTemplate("modules/hackmaster-4e/templates/pc-honor-section.hbs", result );
+		}
+		
+		
 	}
 
 	restoreScrollPosition(){
@@ -111,6 +122,7 @@ export class HackmasterCharacterSheet {
 
 	async insertHonor(){
 		let abilitySaveGrid = this.findElement(".ability-save-grid .ability-tables tbody").first();
+
 		let section = await this.buildHonorSection();
 		abilitySaveGrid.append(section);
 	}
