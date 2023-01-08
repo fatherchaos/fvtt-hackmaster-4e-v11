@@ -95,6 +95,10 @@ export class ArmorInfo{
         return this._itemData?.name;
     }
 
+    get aliasedName(){
+        return this._itemData?.alias ?? this.name;
+    }
+
     async repairArmor(amount){
         await this.damageArmor(-1 * amount);
     }

@@ -39,7 +39,8 @@ export class HackmasterCombatManager{
 
     static async createArmorDamageCard(armor, amountSoaked, amountDamaged){
         let card = Utilities.loadCachedTemplate("modules/hackmaster-4e/templates/armor-damage-card.hbs", {
-            armorName: armor.name,
+            armorName: armor.aliasedName,
+            hpRemaining: armor.hpRemaining,
             amountSoaked: amountSoaked,
             amountDamaged: amountDamaged
         });
@@ -109,9 +110,11 @@ export class HackmasterCombatManager{
 
 				if (isGreatHonor) {
 					dd.data.dmgDone[i].dmg += numDiceRolled;
+                    dd.data.rolled.totalValues += numDiceRolled;
 				}
 				else if (isDishonor) {
 					dd.data.dmgDone[i].dmg -= numDiceRolled;
+                    dd.data.rolled.totalValues -= numDiceRolled
 				}
 			}
 		}
