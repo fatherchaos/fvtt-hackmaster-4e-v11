@@ -5,7 +5,6 @@ export class HackmasterActor {
 
     constructor(osricActor) {
         this._osricActor = osricActor;
-        this.defaultHonorIfNeeded();
     }
 
     getItems(){
@@ -87,12 +86,6 @@ export class HackmasterActor {
         }
     }
 
-    defaultHonorIfNeeded(){
-        if (this._osricActor?.system && !this._osricActor.system.honor){
-            this._osricActor.system.honor = {value: 0, temp: 0, die: ""};
-        }
-    }
-
     get rawHonorState(){
         return this._osricActor?.system?.honorState ?? 0
     }
@@ -122,5 +115,45 @@ export class HackmasterActor {
             return "";
         }
         return HonorCalculator.getHonorDie(this.effectiveLevel, this.honor);
+    }
+
+    get thresholdOfPain(){
+        return Math.floor((this._osricActor?.system?.attributes?.hp?.max ?? 0) / 2);
+    }
+
+    get recentDamageTaken(){
+        return this._osricActor?.system?.recentDamage ?? 0;
+    }
+
+    async setRecentDamageTaken(amount){
+        if(this._osricActor){
+            await this._osricActor.update({
+                "system.recentDamage": amount
+            })
+        }
+    }
+
+    get isDead(){
+        return this._osricActor?.isDead ?? false;
+    }
+
+    async recordDamageTaken(amount){
+        await this.setRecentDamageTaken(this.recentDamageTaken + amount);
+    }
+
+    async resetDamageTaken(){
+        await this.setRecentDamageTaken(0);
+    }
+
+    get needsThresholdOfPainCheck(){
+        return !this.isDead && this.recentDamageTaken >= this.thresholdOfPain;
+    }
+
+    get name() {
+        return this._osricActor?.getName() ?? '';
+    }
+
+    get guid(){
+        return this._osricActor?.id;
     }
 }

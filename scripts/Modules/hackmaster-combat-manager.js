@@ -63,6 +63,9 @@ export class HackmasterCombatManager{
     }
 
     static handleCritCheck(roll, dd, targetToken){
+        if (!roll)
+            return;
+            
 		let source = new HackmasterActor(dd.source);
 		let target = new HackmasterActor(targetToken?.actor);
         let nTargetAc = target.getArmorClass(dd.ac);
@@ -88,8 +91,8 @@ export class HackmasterCombatManager{
 		let isDishonor = hmActor.isInDishonor();
 
 		if (isGreatHonor || isDishonor){
-			bonusFormula.push('@honor');
-			additionalRollData.honor = isGreatHonor ? 1 : -1;
+			bonusFormula.push('@hon');
+			additionalRollData.hon = isGreatHonor ? 1 : -1;
 		}
 	}
 
@@ -105,7 +108,7 @@ export class HackmasterCombatManager{
 				let operatorSign = isGreatHonor ? '+' : '-';
 
 				dd.data.rolled.formulas[i] += ` ${operatorSign} ${numDiceRolled}`;
-				dd.data.rolled.rawformulas[i] += ` ${operatorSign} @honor`;
+				dd.data.rolled.rawformulas[i] += ` ${operatorSign} @hon`;
 				dd.data.rolled.results[i] += ` ${operatorSign} ${numDiceRolled}`;
 
 				if (isGreatHonor) {
@@ -119,4 +122,30 @@ export class HackmasterCombatManager{
 			}
 		}
 	}
+
+    static async recordDamageForThresholdOfPain(targetToken, damageDone){
+        if (targetToken && targetToken.actor && damageDone > 0){
+            let actor = new HackmasterActor(targetToken.actor);
+            await actor.recordDamageTaken(damageDone);
+            if (actor.needsThresholdOfPainCheck){
+                let card = await HackmasterCombatManager.createTopCheckCard(actor);
+                Utilities.displayChatMessage(card, actor);
+            }
+        }
+    }
+
+    static async createTopCheckCard(actor){
+        let card = Utilities.loadCachedTemplate("modules/hackmaster-4e/templates/top-check-card.hbs", {
+            actorName: actor.name,
+            thresholdOfPain: actor.thresholdOfPain,
+            recentDamageTaken: actor.recentDamageTaken,
+            guid: actor.guid
+        });
+        // $(`.top-check-button[data-item-id=${actor.guid}]`).each((i, btn) => {
+        //     btn.addEventListener('click', function(){
+        //         alert('yo');
+        //     });
+        // });
+        return card;
+    }
 }

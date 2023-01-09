@@ -19,7 +19,8 @@ function loadHackmasterTemplates(){
     'modules/hackmaster-4e/templates/pc-honor-section.hbs',
     'modules/hackmaster-4e/templates/npc-honor-section.hbs',
     'modules/hackmaster-4e/templates/crit-chat-card.hbs',
-    'modules/hackmaster-4e/templates/armor-damage-card.hbs'
+    'modules/hackmaster-4e/templates/armor-damage-card.hbs',
+    'modules/hackmaster-4e/templates/top-check-card.hbs'
   ]);
   console.log("pre-loading HM4 templates - finish");
 }

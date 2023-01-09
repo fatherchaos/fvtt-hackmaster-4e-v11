@@ -6,6 +6,18 @@ export class OsricCombatOverrides {
         OsricCombatOverrides.overrideDamageRoll();
 		OsricCombatOverrides.overrideAttackRoll();
 		OsricCombatOverrides.overrideApplyDamageAdjustments();
+		OsricCombatOverrides.overrideSendHealthAdjustChatCard();
+	}
+
+	static overrideSendHealthAdjustChatCard(){
+		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'game.osric.combatManager.sendHealthAdjustChatCard', async function(wrapped, ...args) {
+			await wrapped(...args);
+
+			let targetToken = args[1];
+			let totalDamageDone = args[4];
+			await HackmasterCombatManager.recordDamageForThresholdOfPain(targetToken, totalDamageDone);
+
+		}, 'WRAPPER');
 	}
 
 	static overrideAttackRoll(){
