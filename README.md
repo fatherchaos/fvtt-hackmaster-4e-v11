@@ -33,4 +33,4 @@ Adds some support for Hackmaster 4E rules to the OSRIC system.
 # Some additional modules I've written and use with this:
 * [Initiative Helper](https://github.com/drplote/fvtt-initiative-helper) - Basically AlwaysHP, but for initiative.
 * [Penetration Dice](https://github.com/drplote/fvtt-penetration-dice) - Allows for rolling Hackmaster-style penetration dice. I should honestly build this into HM module since it's pretty core to the HM experience, but haven't yet.
-* [OSRIC Speed Provider](https://github.com/drplote/fvtt-osric-speed-provider) - If you use DragRuler, this module will make it work correctly with OSRIC.
+* [OSRIC Speed Provider](https://github.com/drplote/fvtt-osric-speed-provider) - If you use [DragRuler](https://foundryvtt.com/packages/drag-ruler), this module will make it work correctly with OSRIC.
