@@ -23,8 +23,9 @@ Adds some support for Hackmaster 4E rules to the OSRIC system.
 
 ![image](https://user-images.githubusercontent.com/5131736/211449501-61502f63-a122-4b56-8db4-95365e7a8ffb.png)
 
-![image](https://user-images.githubusercontent.com/5131736/211449543-27e577be-3c7e-456d-a779-30f21ba16add.png)
 * Honor stat added, as well as great honor and dishonor automatically adding to attack and damage rolls.
+
+![image](https://user-images.githubusercontent.com/5131736/211449543-27e577be-3c7e-456d-a779-30f21ba16add.png)
 
 ![Uploading image.png…]()
 * Changes to the initiative system so any initiative over 10 rolls over to the next round (and new initiative is automatically set in the next round as being 10 less than the previous round).
