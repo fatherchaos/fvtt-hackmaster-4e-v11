@@ -9,8 +9,10 @@ Adds some support for Hackmaster 4E rules to the OSRIC system.
 
 ![image](https://user-images.githubusercontent.com/5131736/211449233-fcb9d604-095f-4204-b67f-0142114dee2c.png)
 * If using the Always HP add-on, adds armor and shield damage buttons to it.
+
 ![image](https://user-images.githubusercontent.com/5131736/211449299-da98efaf-f6a7-42be-8373-eec7e219bf81.png)
 * Automated armor damage if damage is targeted.
+
 ![image](https://user-images.githubusercontent.com/5131736/211449394-0486b7ec-5fd8-495b-b74b-e94ef7451a45.png)
 * Support for automatically rolling critical hits with targeted attacks (but currently only on nat20s, and doesn't handle called shots).
 * Support for manually rolling critical hits, either by targeting a token and specifying damage type, and optionally attack bonus and called shot location, or by specifying the exact damage type, severity, and location
