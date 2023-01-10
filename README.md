@@ -10,4 +10,5 @@ Adds some support for Hackmaster 4E rules to the OSRIC system.
 * Support for manually rolling critical hits, either by targeting a token and specifying damage type, and optionally attack bonus and called shot location, or by specifying the exact damage type, severity, and location.
 * Tracking of damage over the course of a round to notify for threshold of pain.
 * Honor stat added, as well as great honor and dishonor automatically adding to attack and damage rolls.
+* Changes to the initiative system so any initiative over 10 rolls over to the next round (and new initiative is automatically set in the next round as being 10 less than the previous round).
 
