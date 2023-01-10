@@ -6,6 +6,7 @@ Adds some support for Hackmaster 4E rules to the OSRIC system.
 * Adds ability to track armor damage.
 
 ![image](https://user-images.githubusercontent.com/5131736/211449165-3d4626f8-05d5-4672-a8ad-7ab15cd77770.png)
+
 ![image](https://user-images.githubusercontent.com/5131736/211449233-fcb9d604-095f-4204-b67f-0142114dee2c.png)
 * If using the Always HP add-on, adds armor and shield damage buttons to it.
 ![image](https://user-images.githubusercontent.com/5131736/211449299-da98efaf-f6a7-42be-8373-eec7e219bf81.png)
@@ -15,6 +16,7 @@ Adds some support for Hackmaster 4E rules to the OSRIC system.
 * Support for manually rolling critical hits, either by targeting a token and specifying damage type, and optionally attack bonus and called shot location, or by specifying the exact damage type, severity, and location
 
 ![image](https://user-images.githubusercontent.com/5131736/211449456-732f879e-5fbb-4286-a433-bffef26dd145.png)
+
 ![image](https://user-images.githubusercontent.com/5131736/211449501-61502f63-a122-4b56-8db4-95365e7a8ffb.png)
 * Tracking of damage over the course of a round to notify for threshold of pain.
 
