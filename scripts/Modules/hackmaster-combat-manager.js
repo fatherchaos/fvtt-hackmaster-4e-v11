@@ -26,7 +26,7 @@ export class HackmasterCombatManager{
                         let numPenetrationsOnDice = Utilities.sumArray(dmgDone.map(d => Utilities.countNumPenetrationsInRoll(d.roll)));
                         armorDamageAmount = numPenetrationsOnDice;
                     }
-                    armor.damageArmor(armorDamageAmount);
+                    await armor.damageArmor(armorDamageAmount);
                     
                     let armorDamageCard = await HackmasterCombatManager.createArmorDamageCard(armor, amountToSoak, armorDamageAmount); 
                     Utilities.displayChatMessage(armorDamageCard);
@@ -139,13 +139,13 @@ export class HackmasterCombatManager{
             actorName: actor.name,
             thresholdOfPain: actor.thresholdOfPain,
             recentDamageTaken: actor.recentDamageTaken,
-            guid: actor.guid
+            actorId: actor.guid
         });
-        // $(`.top-check-button[data-item-id=${actor.guid}]`).each((i, btn) => {
-        //     btn.addEventListener('click', function(){
-        //         alert('yo');
-        //     });
-        // });
         return card;
+    }
+
+    static addExtraDamageSizeFormulas(returnData, targetToken, dd){
+        // returnData = //{ damageFlavor: damageFlavor, damageFormulas: damageFormulas, largeDamageFormulas: largeDamageFormulas };
+        return returnData;
     }
 }

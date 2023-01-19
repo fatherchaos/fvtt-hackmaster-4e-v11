@@ -1,4 +1,13 @@
 export class Utilities {
+
+    static isObjectOfType(obj, type){
+        return Utilities.getObjectType(obj) === type;
+    }
+
+    static getObjectType(obj){
+        return Object.getPrototypeOf(obj)?.constructor?.name;
+    }
+    
     static caseInsensitiveReplace(line, word, replaceWith) {
         var regex = new RegExp('(' + word + ')', 'gi');
         return line.replace(regex, replaceWith);
@@ -66,5 +75,91 @@ export class Utilities {
 
     static intersection(array1, array2){
         return array1.filter(value => array2.includes(value));
+    }
+
+    static async runAsGM(data = {}) {
+        // if GM we skip to the command
+        if (game.user.isGM) {
+            await Utilities.runGMCommand(data);
+        } else {
+            // send data to socket and look for GM to run the command for user
+            const dataPacket = {
+                requestId: randomID(16),
+                ...data
+            }
+            // Emit a socket event
+            await game.socket.emit('module.hackmaster-4e', dataPacket);
+        }
+    }
+
+    static async runGMCommand(data) {   
+        const sourceActor = data.sourceActorId ? game.actors.get(data.sourceActorId) : undefined;
+        const sourceToken = data.sourceTokenId ? canvas.tokens.get(data.sourceTokenId) : undefined;
+        const targetActor = data.targetActorId ? game.actors.get(data.targetActorId) : undefined;
+        const targetToken = data.targetTokenId ? canvas.tokens.get(data.targetTokenId) : undefined;
+        const targetItemId = data.targetItemId ? data.targetItemId : undefined;
+    
+        switch (data.operation) {
+    
+            case 'updateActor':
+                if (targetActor && data.update) {
+                    await targetActor.update(data.update);
+                } else if (targetToken && data.update) {
+                    await targetToken.actor.update(data.update);
+                }
+                break;
+            case 'updateItem':
+                let itemToUpdate;
+                if (targetActor && targetItemId && data.update) {
+                    itemToUpdate = await targetActor.getEmbeddedDocument("Item", targetItemId);
+                    if (itemToUpdate) itemToUpdate.update(data.update);
+                } else if (targetToken && targetItemId && data.update) {
+                    itemToUpdate = await targetToken.actor.getEmbeddedDocument("Item", targetItemId);
+                    if (itemToUpdate) itemToUpdate.update(data.update);
+                }
+                break;
+            default:
+                console.log("utilities.js processGMCommand Unknown asGM/runGMCommand request ", data.operation, { data });
+                break;
+        };
+    }
+
+    async processGMCommand(data = {}) {
+        const activeGMs = game.users.filter((user) => user.isGM && user.active);
+        const findGM = activeGMs.length ? activeGMs[0] : null;
+        if (!findGM) {
+            ui.notifications.error(`No GM connected to process requested command.`);
+            console.trace("processGMCommand No GM connected to process requested command.");
+        } else
+            // check to see if the GM we found is the person we've emit'd to and if so run command.
+            if (findGM.id === game.user.id) {
+                if (!game.osric.runAsGMRequestIds[data.requestId]) {
+   
+                    // We do this to make sure the command is only run once if more than 
+                    // one GM is on the server
+                    game.osric.runAsGMRequestIds[data.requestId] = data.requestId;
+    
+                    /**
+                     * "data" is serialized and deserialized so the type is lost.
+                     * Because of that we just exchange IDs when we need protos/etc 
+                     * and load them where needed
+                     * 
+                     */
+                    // let source = data.sourceId ? canvas.tokens.get(data.sourceId) : undefined;
+                    // let target = data.targetId ? canvas.tokens.get(data.targetId) : undefined;
+    
+                    // const sourceActor = data.sourceActorId ? game.actors.get(data.sourceActorId) : undefined;
+                    // const targetActor = data.targetActorId ? game.actors.get(data.targetActorId) : undefined;
+                    // const targetToken = data.targetTokenId ? canvas.tokens.get(data.targetTokenId) : undefined;
+    
+                    // console.log("utilities.js processGMCommand", { data });
+    
+                    await Utilities.runGMCommand(data);
+                } else {
+                    // requestId already processed
+                    console.log("utilities.js", "processGMCommand", "Unknown asGM request DUPLICATE ", { data });
+                    ui.notifications.error(`Duplicate asGM request command.`, { permanent: true });
+                }
+            }
     }
 }

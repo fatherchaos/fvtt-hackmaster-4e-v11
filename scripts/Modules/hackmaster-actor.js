@@ -1,3 +1,4 @@
+import { Utilities } from "../utilities.js";
 import { HackmasterItem } from "./hackmaster-item.js";
 import { HonorCalculator } from "./honor-calculator.js";
 
@@ -34,6 +35,20 @@ export class HackmasterActor {
 
     get honor() {
         return this._osricActor?.system?.honor?.value ?? 0;
+    }
+
+    
+    get comeliness(){
+        return this._osricActor?.system?.comeliness?.value ?? 10;
+    }
+
+    get comelinessPercent(){
+        return this._osricActor?.system?.comeliness?.percent ?? 0;
+    }
+
+    get comelinessDescription(){
+        let boundedComeliness = Math.min(Math.max(1, this.comeliness), 25);
+        return CONFIG.Hackmaster.ComelinessTable[boundedComeliness];
     }
 
     get effectiveLevel() {
@@ -126,10 +141,14 @@ export class HackmasterActor {
     }
 
     async setRecentDamageTaken(amount){
-        if(this._osricActor){
-            await this._osricActor.update({
-                "system.recentDamage": amount
-            })
+        if (this._osricActor){
+            await Utilities.runAsGM({
+                operation: 'updateActor',
+                sourceActorId: this.guid,
+                update: {
+                    "system.recentDamage": amount
+                }
+            });
         }
     }
 

@@ -118,7 +118,7 @@ export class HackmasterCrits {
     {
         let aCritDamageTypes = this.getCritDamageTypes(aDamageTypes);
         if (!aCritDamageTypes || aCritDamageTypes.length == 0){
-            return nil;
+            return null;
         }
         return aCritDamageTypes[Utilities.getRandomNumber(1, aCritDamageTypes.length) - 1];
     }
@@ -126,6 +126,7 @@ export class HackmasterCrits {
     static getCritType(aDamageTypes){
         let sCritType = this.selectRandomCritDamageType(aDamageTypes); 
         if (!sCritType || sCritType === ""){
+            console.log("could't determine damage type for crit, so used slashing");
             sCritType = "s"; // couldn't parse anything, so call it hacking.
         }
         else
@@ -328,7 +329,7 @@ export class HackmasterCrits {
             this.decodeUnconscious(aEffects);
         }
         if (rCritEffect.ls){
-            decodeLimbSevered(aEffects, rLocation, rTarget);
+            this.decodeLimbSevered(aEffects, rLocation, rTarget);
         }
         if (rCritEffect.dead){
             this.decodeDead(aEffects, rCritEffect.dead);

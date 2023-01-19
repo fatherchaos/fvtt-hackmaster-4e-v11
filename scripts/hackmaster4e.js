@@ -1,11 +1,14 @@
 import { OsricActorOverrides } from './Overrides/actor-overrides.js';
 import { HackmasterCharacterSheet } from "./hackmaster-character-sheet.js";
+import { HackmasterItemSheet } from './hackmaster-item-sheet.js';
 import { Hackmaster } from './config.js';
 import { HackmasterItem } from "./hackmaster-item.js";
 import { AlwaysHpSupport } from './always-hp-support.js';
 import { OsricCombatTrackerOverrides } from './Overrides/combat-tracker-overrides.js';
 import { OsricCombatOverrides } from './Overrides/combat-overrides.js';
 import { HackmasterChatCommands } from './Modules/hackmaster-chat-commands.js';
+import { Utilities } from './utilities.js';
+import { HackmasterSettings } from './Modules/hackmaster-settings.js';
 
 const MODULE_NAME = "Hackmaster 4th Edition";
 
@@ -20,9 +23,17 @@ function loadHackmasterTemplates(){
     'modules/hackmaster-4e/templates/npc-honor-section.hbs',
     'modules/hackmaster-4e/templates/crit-chat-card.hbs',
     'modules/hackmaster-4e/templates/armor-damage-card.hbs',
-    'modules/hackmaster-4e/templates/top-check-card.hbs'
+    'modules/hackmaster-4e/templates/top-check-card.hbs',
+    'modules/hackmaster-4e/templates/weapon-damage-section.hbs',
+    'modules/hackmaster-4e/templates/comeliness-section.hbs'
   ]);
   console.log("pre-loading HM4 templates - finish");
+}
+
+function listenForGmCommands(){
+  game.socket.on('module.hackmaster-4e', (data) => {
+    Utilities.processGMCommand(data);
+  });
 }
 
 function updateOsricConfig(){
@@ -31,6 +42,9 @@ function updateOsricConfig(){
 
 Hooks.once('ready', function(){
   loadHackmasterTemplates();
+  if (game.user.isGM){
+    listenForGmCommands();
+  }
 });
 
 Hooks.once('init', function() {
@@ -46,6 +60,8 @@ Hooks.once('init', function() {
   AlwaysHpSupport.initialize();
   OsricCombatOverrides.initialize();
   HackmasterChatCommands.initialize();
+  HackmasterItemSheet.initialize();
+  HackmasterSettings.initialize();
   console.log(`Finished initializing "${MODULE_NAME}`);
 });
 

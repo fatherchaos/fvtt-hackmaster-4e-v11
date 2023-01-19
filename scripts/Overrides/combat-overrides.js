@@ -7,7 +7,24 @@ export class OsricCombatOverrides {
 		OsricCombatOverrides.overrideAttackRoll();
 		OsricCombatOverrides.overrideApplyDamageAdjustments();
 		OsricCombatOverrides.overrideSendHealthAdjustChatCard();
+		OsricCombatOverrides.overrideGetDamageFormulas();
 	}
+
+	static overrideGetDamageFormulas(){
+		// libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'game.osric.combatManager.getDamageFormulas', async function(wrapped, ...args) {
+		// 	let returnData = await wrapped(...args);
+		// 	return HackmasterCombatManager.addExtraDamageSizeFormulas(returnData, ...args);
+		// }, 'WRAPPER');
+
+		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'game.osric.diceManager.adjustHPRoll', async function(wrapped, ...args) {
+			// let dd = args[0];
+			// We need to pop in and adjust the dd.data.dmgFormulas for our size
+			// Should possibly only do this for melee weapons right now
+			return await wrapped(...args)
+
+		}, 'WRAPPER');
+	}
+	getDamageFormulas
 
 	static overrideSendHealthAdjustChatCard(){
 		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'game.osric.combatManager.sendHealthAdjustChatCard', async function(wrapped, ...args) {

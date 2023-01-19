@@ -7,6 +7,7 @@ export class HackmasterCharacterSheet {
 		Hooks.on('renderActorSheet', async (sheet) => {
 			let hmSheet = new HackmasterCharacterSheet(sheet);
 			await hmSheet.insertArmorTrackers();
+			await hmSheet.insertComeliness();
 			await hmSheet.insertHonor();
 			hmSheet.restoreScrollPosition();
 		});
@@ -67,8 +68,17 @@ export class HackmasterCharacterSheet {
 			};
 			return await renderTemplate("modules/hackmaster-4e/templates/pc-honor-section.hbs", result );
 		}
-		
-		
+	}
+
+	async buildComelinessSection(){
+		let hmActor = new HackmasterActor(this.actor);
+		let result = {
+			comeliness: hmActor.comeliness, 
+			comelinessPercent: hmActor.comelinessPercent,
+			shortDescription: hmActor.comelinessDescription[0],
+			longDescription: hmActor.comelinessDescription[1]
+		};
+		return await renderTemplate("modules/hackmaster-4e/templates/comeliness-section.hbs", result );
 	}
 
 	restoreScrollPosition(){
@@ -124,6 +134,13 @@ export class HackmasterCharacterSheet {
 		let abilitySaveGrid = this.findElement(".ability-save-grid .ability-tables tbody").first();
 
 		let section = await this.buildHonorSection();
+		abilitySaveGrid.append(section);
+	}
+
+	async insertComeliness(){
+		let abilitySaveGrid = this.findElement(".ability-save-grid .ability-tables tbody").first();
+
+		let section = await this.buildComelinessSection();
 		abilitySaveGrid.append(section);
 	}
 };

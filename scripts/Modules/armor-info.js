@@ -1,3 +1,5 @@
+import { Utilities } from "../utilities.js";
+
 export class ArmorInfo{
     constructor(itemData) {
 		this._itemData = itemData;
@@ -21,6 +23,14 @@ export class ArmorInfo{
 
     get id(){
         return this._itemData?.id;
+    }
+
+    get owningActorId(){
+        var parent = this._itemData?.parent;
+        if (Utilities.isObjectOfType(parent, "OSRICActor")){
+            return this._itemData?.actor?.id;
+        }
+        return null;
     }
 
     get image(){
@@ -110,9 +120,14 @@ export class ArmorInfo{
 
         if (actualChange !== 0){
             let modifierChange = this.calcModifierChangeFromDamage(oldDamage, newDamage);
-            await this._itemData.update({
-                "system.protection.armorDamage.damageTaken": newDamage,
-                "system.protection.modifier": this.acModifier + modifierChange
+            await Utilities.runAsGM({
+                operation: 'updateItem',
+                targetItemId: this.id, 
+                targetActorId: this.owningActorId,
+                update:{
+                    "system.protection.armorDamage.damageTaken": newDamage,
+                    "system.protection.modifier": this.acModifier + modifierChange
+                }
             })
         }
 
