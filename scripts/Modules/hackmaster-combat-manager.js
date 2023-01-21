@@ -156,8 +156,8 @@ export class HackmasterCombatManager{
         }
 
         if (dd.isWeapon && dd.item && dd?.data?.dmgFormulas){
-            // for now we only handle melee weapons
-            if( dd.item.type === 'weapon' && dd.item?.system?.attack?.type === 'melee'){
+            // for now we only handle melee weapons and thrown weapons. Ranged weapons are weird with ammo and I'm not sure how to deal with it yet.
+            if( dd.item.type === 'weapon' && dd.item?.system?.attack?.type !== 'ranged'){
                 let weapon = new HackmasterItem(dd.item);
                 let target = new HackmasterActor(targetToken.actor);
                 let correctDamage = weapon.getDamageForSizeCategory(target.sizeCategory);
