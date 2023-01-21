@@ -17,10 +17,10 @@ export class OsricCombatOverrides {
 		// }, 'WRAPPER');
 
 		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'game.osric.diceManager.adjustHPRoll', async function(wrapped, ...args) {
-			// let dd = args[0];
-			// We need to pop in and adjust the dd.data.dmgFormulas for our size
-			// Should possibly only do this for melee weapons right now
-			return await wrapped(...args)
+			let dd = args[0];
+			let targetToken = args.length > 1 ? args[1] : null;
+			HackmasterCombatManager.replaceDamageForCorrectSize(dd, targetToken);
+			return await wrapped(dd, targetToken)
 
 		}, 'WRAPPER');
 	}
@@ -48,6 +48,7 @@ export class OsricCombatOverrides {
 			let targetToken = args[1];
 
 			HackmasterCombatManager.handleCritCheck(roll, dd, targetToken);
+			return roll;
 
 		}, 'WRAPPER');
 	}

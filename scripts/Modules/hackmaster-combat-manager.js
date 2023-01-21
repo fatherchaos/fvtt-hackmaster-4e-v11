@@ -1,5 +1,6 @@
 import { HackmasterActor } from '../Modules/hackmaster-actor.js';
 import { HackmasterCrits } from '../Modules/hackmaster-crits.js';
+import { HackmasterItem } from '../Modules/hackmaster-item.js';
 import { Utilities } from '../utilities.js'
 
 export class HackmasterCombatManager{
@@ -147,5 +148,25 @@ export class HackmasterCombatManager{
     static addExtraDamageSizeFormulas(returnData, targetToken, dd){
         // returnData = //{ damageFlavor: damageFlavor, damageFormulas: damageFormulas, largeDamageFormulas: largeDamageFormulas };
         return returnData;
+    }
+
+    static replaceDamageForCorrectSize(dd, targetToken){
+        if (!targetToken?.actor){
+            return;
+        }
+
+        if (dd.isWeapon && dd.item && dd?.data?.dmgFormulas){
+            // for now we only handle melee weapons
+            if( dd.item.type === 'weapon' && dd.item?.system?.attack?.type === 'melee'){
+                let weapon = new HackmasterItem(dd.item);
+                let target = new HackmasterActor(targetToken.actor);
+                let correctDamage = weapon.getDamageForSizeCategory(target.sizeCategory);
+                let weaponNormalDamage = weapon.getDamageForSizeCategory(3);
+                let weaponLargeDamage = weapon.getDamageForSizeCategory(4);
+                let damageToReplace = target.sizeCategory <= 3 ? weaponNormalDamage : weaponLargeDamage;
+                dd.data.dmgFormulas[0].formula = dd.data.dmgFormulas[0].formula.replace(damageToReplace, correctDamage);
+                dd.data.dmgFormulas[0].rawformula = dd.data.dmgFormulas[0].rawformula.replace(damageToReplace, correctDamage);
+            }
+        }
     }
 }

@@ -1,5 +1,17 @@
 export class HackmasterItemSheet{
+    static addArmorDamageFields(){
+        let armorDamage = {
+           progression: "",
+           damageTaken: 0,
+           soak: 1
+        };
+  
+        game.system.model.Item.armor.protection.armorDamage = armorDamage;
+    }
+    
     static initialize(){
+        this.addArmorDamageFields();
+
         Hooks.on('renderOSRICItemSheet', async (sheet) => {
             let hmSheet = new HackmasterItemSheet(sheet);
             if (hmSheet.itemType == 'weapon'){
@@ -7,43 +19,18 @@ export class HackmasterItemSheet{
                 hmSheet.restoreScrollPosition();
             }
 		});
+
+        Hooks.on('renderItemSheet', async (sheet) => {
+			await this.insertArmorDamageFields(sheet);
+		});
     }
 
     constructor(sheet) {
 		this._sheet = sheet;
 	}
 
-    get osricItem(){
-        return this._sheet?.item ?? {};
-    }
-
-    get rawDamageData(){
-        return this.osricItem?.system?.damage ?? {};
-    }
-
-    getDamageForSizes(){
-        let tiny = this.rawDamageData?.tiny;
-        let small = this.rawDamageData?.small;
-        let medium = this.rawDamageData?.normal;
-        let large = this.damagrawDamageDataeData?.large;
-        let huge = this.rawDamageData?.huge;
-        let gargantuan = this.rawDamageData?.gargantuan;
-
-        gargantuan ||= huge || large || medium || small || tiny;
-        huge ||= large || medium || small || tiny || gargantuan;
-        large ||= medium || small || tiny || huge || gargantuan;
-        medium ||= small || tiny || large || huge || gargantuan;
-        small ||= tiny || medium || large || huge || gargantuan;
-        tiny ||= small || medium || large || huge || gargantuan;
-
-        return {
-            tiny: tiny,
-            small: small,
-            medium: medium,
-            large: large,
-            huge: huge,
-            gargantuan: gargantuan
-        };
+    getRawDamageData(){
+        return this._sheet?.item?.system?.damage ?? {};
     }
 
     get itemType(){
@@ -64,7 +51,7 @@ export class HackmasterItemSheet{
     }
 
     async buildWeaponDamageSection(){
-        let data = this.rawDamageData;
+        let data = this.getRawDamageData();
 		return await renderTemplate("modules/hackmaster-4e/templates/weapon-damage-section.hbs", data);
 	}
 
@@ -76,5 +63,21 @@ export class HackmasterItemSheet{
 
 	saveScrollPosition(){
 		this._sheet.itemSheetScrollY = $('.item .window-content').scrollTop();
+	}
+
+    static async buildArmorDamageFields(armorDamageInfo){
+        return await renderTemplate('modules/hackmaster-4e/templates/item-armor-damage-fields.hbs', armorDamageInfo);
+    }
+
+    static async insertArmorDamageFields(sheet) {
+        let itemType = sheet.object.data.type;
+        if (itemType === "armor"){
+            let armorsList = sheet._element.find(".armors-list");
+            if (armorsList){
+                let armorDamageInfo = sheet.object.system.protection.armorDamage;
+                let fieldHtml = await this.buildArmorDamageFields(armorDamageInfo);
+                $(fieldHtml).insertAfter(armorsList);
+            }
+        }
 	}
 }

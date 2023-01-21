@@ -2,7 +2,6 @@ import { OsricActorOverrides } from './Overrides/actor-overrides.js';
 import { HackmasterCharacterSheet } from "./hackmaster-character-sheet.js";
 import { HackmasterItemSheet } from './hackmaster-item-sheet.js';
 import { Hackmaster } from './config.js';
-import { HackmasterItem } from "./hackmaster-item.js";
 import { AlwaysHpSupport } from './always-hp-support.js';
 import { OsricCombatTrackerOverrides } from './Overrides/combat-tracker-overrides.js';
 import { OsricCombatOverrides } from './Overrides/combat-overrides.js';
@@ -55,7 +54,6 @@ Hooks.once('init', function() {
   updateOsricConfig();
   OsricActorOverrides.initialize();
   HackmasterCharacterSheet.initialize();
-  HackmasterItem.initialize();
   OsricCombatTrackerOverrides.initialize();
   AlwaysHpSupport.initialize();
   OsricCombatOverrides.initialize();

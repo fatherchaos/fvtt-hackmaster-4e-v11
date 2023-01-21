@@ -36,4 +36,52 @@ export class HackmasterItem{
         }
         return null;
     }
+
+    get rawDamageData(){
+        return this._osricItem?.system?.damage ?? {};
+    }
+
+    getDamageForSizeCategory(sizeCategory){
+        let damages = this.getDamageForSizes();
+        switch(sizeCategory){
+            case 1:
+                return damages.tiny;
+            case 2:
+                return damages.small;
+            case 4:
+                return damages.large;
+            case 5:
+                return damages.huge;
+            case 6:
+                return damages.gargantuan;
+            case 3:
+            default: 
+                return damages.medium;
+        }
+    }
+
+    getDamageForSizes(){
+        let tiny = this.rawDamageData?.tiny;
+        let small = this.rawDamageData?.small;
+        let medium = this.rawDamageData?.normal;
+        let large = this.rawDamageData?.large;
+        let huge = this.rawDamageData?.huge;
+        let gargantuan = this.rawDamageData?.gargantuan;
+
+        gargantuan ||= huge || large || medium || small || tiny;
+        huge ||= large || medium || small || tiny || gargantuan;
+        large ||= medium || small || tiny || huge || gargantuan;
+        medium ||= small || tiny || large || huge || gargantuan;
+        small ||= tiny || medium || large || huge || gargantuan;
+        tiny ||= small || medium || large || huge || gargantuan;
+
+        return {
+            tiny: tiny,
+            small: small,
+            medium: medium,
+            large: large,
+            huge: huge,
+            gargantuan: gargantuan
+        };
+    }
 }
