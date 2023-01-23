@@ -144,7 +144,8 @@ export class HackmasterActor {
         if (this._osricActor){
             await Utilities.runAsGM({
                 operation: 'updateActor',
-                sourceActorId: this.guid,
+                targetActorId: this.isNpc ? null : this.actorId,
+                targetTokenId: this.isNpc ? this.tokenId : null,
                 update: {
                     "system.recentDamage": amount
                 }
@@ -172,7 +173,11 @@ export class HackmasterActor {
         return this._osricActor?.getName() ?? '';
     }
 
-    get guid(){
+    get actorId(){
         return this._osricActor?.id;
+    }
+
+    get tokenId(){
+        return this._osricActor?.token?.id;
     }
 }

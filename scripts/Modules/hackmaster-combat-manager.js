@@ -140,7 +140,8 @@ export class HackmasterCombatManager{
             actorName: actor.name,
             thresholdOfPain: actor.thresholdOfPain,
             recentDamageTaken: actor.recentDamageTaken,
-            actorId: actor.guid
+            actorId: actor.actorId,
+            tokenId: actor.tokenId
         });
         return card;
     }
