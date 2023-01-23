@@ -11,17 +11,11 @@ export class OsricCombatOverrides {
 	}
 
 	static overrideGetDamageFormulas(){
-		// libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'game.osric.combatManager.getDamageFormulas', async function(wrapped, ...args) {
-		// 	let returnData = await wrapped(...args);
-		// 	return HackmasterCombatManager.addExtraDamageSizeFormulas(returnData, ...args);
-		// }, 'WRAPPER');
-
 		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'game.osric.diceManager.adjustHPRoll', async function(wrapped, ...args) {
 			let dd = args[0];
 			let targetToken = args.length > 1 ? args[1] : null;
 			HackmasterCombatManager.replaceDamageForCorrectSize(dd, targetToken);
 			return await wrapped(dd, targetToken)
-
 		}, 'WRAPPER');
 	}
 	getDamageFormulas

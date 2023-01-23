@@ -145,11 +145,6 @@ export class HackmasterCombatManager{
         return card;
     }
 
-    static addExtraDamageSizeFormulas(returnData, targetToken, dd){
-        // returnData = //{ damageFlavor: damageFlavor, damageFormulas: damageFormulas, largeDamageFormulas: largeDamageFormulas };
-        return returnData;
-    }
-
     static replaceDamageForCorrectSize(dd, targetToken){
         if (!targetToken?.actor){
             return;

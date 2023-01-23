@@ -25,10 +25,26 @@ export class ArmorInfo{
         return this._itemData?.id;
     }
 
+    get belongsToNpc(){
+        var parent = this._itemData?.parent;
+        if (Utilities.isObjectOfType(parent, "OSRICActor")){
+            return this._itemData.actor.type === 'npc';
+        }
+        return true;
+    }
+
     get owningActorId(){
         var parent = this._itemData?.parent;
         if (Utilities.isObjectOfType(parent, "OSRICActor")){
             return this._itemData?.actor?.id;
+        }
+        return null;
+    }
+
+    get owningTokenId(){
+        var parent = this._itemData?.parent;
+        if (Utilities.isObjectOfType(parent, "OSRICActor")){
+            return this._itemData?.actor?.token?.id;
         }
         return null;
     }
@@ -123,7 +139,8 @@ export class ArmorInfo{
             await Utilities.runAsGM({
                 operation: 'updateItem',
                 targetItemId: this.id, 
-                targetActorId: this.owningActorId,
+                targetTokenId: this.belongsToNpc ? this.owningTokenId : null,
+                targetActorId: this.belongsToNpc ? null : this.owningActorId,
                 update:{
                     "system.protection.armorDamage.damageTaken": newDamage,
                     "system.protection.modifier": this.acModifier + modifierChange
