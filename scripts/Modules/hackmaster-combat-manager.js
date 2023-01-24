@@ -6,6 +6,10 @@ import { Utilities } from '../utilities.js'
 export class HackmasterCombatManager{
 
     static async applyArmorSoak(dmgAdjustResult, sourceActor, targetToken, sourceItem, sourceAction, bDamage, dmgDone, ammo = null){
+        if (!bDamage){
+            return dmgAdjustResult;
+        }
+        
         let hasUnsoakableDamageTypes = Utilities.intersection(["pyschic", "poison"], dmgAdjustResult.types).length > 0;
         if (!hasUnsoakableDamageTypes && targetToken?.actor){
             let target = new HackmasterActor(targetToken.actor);

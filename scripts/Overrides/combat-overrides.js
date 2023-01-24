@@ -25,8 +25,11 @@ export class OsricCombatOverrides {
 			await wrapped(...args);
 
 			let targetToken = args[1];
+			let bDamage = args[2];
 			let totalDamageDone = args[4];
-			await HackmasterCombatManager.recordDamageForThresholdOfPain(targetToken, totalDamageDone);
+			if (bDamage){
+				await HackmasterCombatManager.recordDamageForThresholdOfPain(targetToken, totalDamageDone);
+			}
 
 		}, 'WRAPPER');
 	}
