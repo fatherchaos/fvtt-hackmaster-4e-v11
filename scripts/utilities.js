@@ -124,7 +124,7 @@ export class Utilities {
         };
     }
 
-    async processGMCommand(data = {}) {
+    static async processGMCommand(data = {}) {
         const activeGMs = game.users.filter((user) => user.isGM && user.active);
         const findGM = activeGMs.length ? activeGMs[0] : null;
         if (!findGM) {
