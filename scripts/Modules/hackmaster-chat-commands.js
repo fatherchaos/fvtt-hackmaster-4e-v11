@@ -67,7 +67,7 @@ export class HackmasterChatCommands{
             attackBonus = isNaN(attackBonus) ? 0 : attackBonus;
             let calledShotLocationName = args.length == 3 ? args[2].toLowerCase() : undefined;
             if ((!calledShotLocationName || Object.keys(CritData.CalledShotLocationTable).includes(calledShotLocationName))
-                && (damageType === 'b' || damageType === 's' || damageType === 'c') 
+                && (damageType === 'b' || damageType === 's' || damageType === 'p') 
                 && canvas.tokens.controlled.length == 1
                 && game.user.targets?.size == 1) {
                     let source = new HackmasterActor(canvas.tokens.controlled[0].actor);
