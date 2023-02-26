@@ -20,7 +20,7 @@ export class OsricCombatTrackerOverrides {
   }
 
   static overrideProcessOngoingHealthAdjustments(){
-		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Combat.documentClass.prototype.processOngoingHealthAdjustments', async function(wrapped, ...args) {
+		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Combat.documentClass.prototype.processOneRoundFlags', async function(wrapped, ...args) {
 			await wrapped(...args);
       if(game.user.isGM){
           let hmActor = new HackmasterActor(args[0].actor);
