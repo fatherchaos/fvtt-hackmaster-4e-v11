@@ -36,7 +36,7 @@ function listenForGmCommands(){
 }
 
 function updateOsricConfig(){
-  CONFIG.OSRIC.icons.general.actors['npc'] = 'icons/svg/mystery-man-black.svg';
+  CONFIG.ARS.icons.general.actors['npc'] = 'icons/svg/mystery-man-black.svg';
 }
 
 Hooks.once('ready', function(){

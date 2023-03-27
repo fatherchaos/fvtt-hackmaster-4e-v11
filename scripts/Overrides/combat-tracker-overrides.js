@@ -14,6 +14,8 @@ export class OsricCombatTrackerOverrides {
           await HackmasterCombatManager.reRollInitiative(this);
         }
         else{
+          await this.resetAll();
+          await this.update({ turn: null });
           await wrapped(...args);
         }
 		}, 'MIXED');

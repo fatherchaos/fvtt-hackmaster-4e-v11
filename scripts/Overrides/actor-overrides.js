@@ -10,9 +10,9 @@ export class OsricActorOverrides {
 	}
 
 	static overrideSavingThrows(){
-		let saveVariants = Object.keys(CONFIG.OSRIC.npcSaveTable);
+		let saveVariants = Object.keys(CONFIG.ARS.npcSaveTable);
 		saveVariants.map(v => {
-			CONFIG.OSRIC.npcSaveTable[v] = CONFIG.Hackmaster.MonsterSaves;
+			CONFIG.ARS.npcSaveTable[v] = CONFIG.Hackmaster.MonsterSaves;
 		});
 	}
 
@@ -33,7 +33,7 @@ export class OsricActorOverrides {
 	}
 
 	static overrideStatBonuses(){
-	  CONFIG.OSRIC.constitutionTable["0"] = Hackmaster.ConstitutionTable;
+	  CONFIG.ARS.constitutionTable["0"] = Hackmaster.ConstitutionTable;
 	  
 	  libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Actor.documentClass.prototype._buildAbilityFields', (function() {
 	    return function(data) {

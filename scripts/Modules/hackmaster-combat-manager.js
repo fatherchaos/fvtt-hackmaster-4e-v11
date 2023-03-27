@@ -29,7 +29,7 @@ export class HackmasterCombatManager{
                     let hasOnlyStandardDamageTypes = dmgAdjustResult.types.every(t => ["bludgeoning", "slashing", "piercing"].includes(t));
                     if (armor.isMagic && hasOnlyStandardDamageTypes){
                         let numPenetrationsOnDice = Utilities.sumArray(dmgDone.map(d => Utilities.countNumPenetrationsInRoll(d.roll)));
-                        armorDamageAmount = numPenetrationsOnDice;
+                        armorDamageAmount = Math.min(numPenetrationsOnDice, numDiceDamage);
                     }
                     await armor.damageArmor(armorDamageAmount);
                     

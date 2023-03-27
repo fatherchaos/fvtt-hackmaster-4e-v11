@@ -29,7 +29,7 @@ Hackmaster.MonsterSaves = {
 }
 
 Hackmaster.StrengthTable = {
-	0: ["OSRIC.abilityFields.str.hit", "OSRIC.abilityFields.str.dmg", "OSRIC.abilityFields.str.allow", "OSRIC.abilityFields.str.press", "OSRIC.abilityFields.str.open", "OSRIC.abilityFields.str.bendbars", "OSRIC.abilityFields.str.encumbrance.light", "OSRIC.abilityFields.str.encumbrance.moderate", "OSRIC.abilityFields.str.encumbrance.heavy", "OSRIC.abilityFields.str.encumbrance.severe", "OSRIC.abilityFields.str.encumbrance.max"],
+	0: ["ARS.abilityFields.str.hit", "ARS.abilityFields.str.dmg", "ARS.abilityFields.str.allow", "ARS.abilityFields.str.press", "ARS.abilityFields.str.open", "ARS.abilityFields.str.bendbars", "ARS.abilityFields.str.encumbrance.light", "ARS.abilityFields.str.encumbrance.moderate", "ARS.abilityFields.str.encumbrance.heavy", "ARS.abilityFields.str.encumbrance.severe", "ARS.abilityFields.str.encumbrance.max"],
   	
   	1: [-3,-8,1,3,"1(0)",0 ,2,4,6,8,10],
 	2: [-3,-8,2,4,"1(0)",0 ,3,5,7,9,11],
@@ -108,7 +108,7 @@ Hackmaster.StrengthTable = {
 };
 	  
 Hackmaster.DexterityTable = {
-	0: ["OSRIC.abilityFields.dex.reaction", "OSRIC.abilityFields.dex.missile", "OSRIC.abilityFields.dex.defensive"],
+	0: ["ARS.abilityFields.dex.reaction", "ARS.abilityFields.dex.missile", "ARS.abilityFields.dex.defensive"],
 	1: [-5,-6,5],
 	2: [-5,-5,5],
 
@@ -186,7 +186,7 @@ Hackmaster.DexterityTable = {
 };
 
 Hackmaster.WisdomTable = {
-	0: ["OSRIC.abilityFields.wis.magic", "OSRIC.abilityFields.wis.bonus", "OSRIC.abilityFields.wis.failure", "OSRIC.abilityFields.wis.imm"],
+	0: ["ARS.abilityFields.wis.magic", "ARS.abilityFields.wis.bonus", "ARS.abilityFields.wis.failure", "ARS.abilityFields.wis.imm"],
     1: [-6, "None", 80, "None", 10, 0],
     2: [-4, "None", 60, "None", 10, 0],
     3: [-3, "None", 50, "None", 10, 0],
@@ -226,7 +226,7 @@ Hackmaster.WisdomTable = {
 
   
 Hackmaster.ConstitutionTable = {
-    0: ["OSRIC.abilityFields.con.hp", "OSRIC.abilityFields.con.shock", "OSRIC.abilityFields.con.survival", "OSRIC.abilityFields.con.poison", "OSRIC.abilityFields.con.regen"],
+    0: ["ARS.abilityFields.con.hp", "ARS.abilityFields.con.shock", "ARS.abilityFields.con.survival", "ARS.abilityFields.con.poison", "ARS.abilityFields.con.regen"],
     1: [[-5], 25, 30, -2, "None", 0],
     2: [[-4], 30, 35, -1, "None", 0],
     3: [[-4], 35, 40, 0, "None", 0],
@@ -255,7 +255,7 @@ Hackmaster.ConstitutionTable = {
 };
 
 Hackmaster.CharismaTable = {
-    0: ["OSRIC.abilityFields.cha.max", "OSRIC.abilityFields.cha.loyalty", "OSRIC.abilityFields.cha.reaction"],
+    0: ["ARS.abilityFields.cha.max", "ARS.abilityFields.cha.loyalty", "ARS.abilityFields.cha.reaction"],
     1: [0, -8, -7],
     2: [1, -7, -6],
     3: [1, -6, -5],
@@ -284,7 +284,7 @@ Hackmaster.CharismaTable = {
 };
 
 Hackmaster.IntelligenceTable = {
-    0: ["OSRIC.abilityFields.int.languages", "OSRIC.abilityFields.int.level", "OSRIC.abilityFields.int.chance", "OSRIC.abilityFields.int.max", "OSRIC.abilityFields.int.imm"],
+    0: ["ARS.abilityFields.int.languages", "ARS.abilityFields.int.level", "ARS.abilityFields.int.chance", "ARS.abilityFields.int.max", "ARS.abilityFields.int.imm"],
     1: [0, 0, 0, 0, "None", 0, 0, 0],
     2: [1, 0, 0, 0, "None", 0, 0, 0],
     3: [1, 0, 0, 0, "None", 0, 0, 0],
@@ -321,7 +321,7 @@ Hackmaster.IntelligenceTable = {
 };
   
 Hackmaster.ComelinessTable = {
-	0: ["OSRIC.abilityFields.com.shortDesc", "OSRIC.abilityFields.com.longDesc"],
+	0: ["ARS.abilityFields.com.shortDesc", "ARS.abilityFields.com.longDesc"],
 	1: ["You're ugly. Hover for more", "Such an individual is simply ugly. The reaction evidenced will tend toward unease and a desire to get away from such brutishness as quickly as possible. If given the opportunity, the character's Charisma can offset ugliness, but this requires a fair amount of conversation and interaction to take place."],
 	2: ["You're ugly. Hover for more", "Such an individual is simply ugly. The reaction evidenced will tend toward unease and a desire to get away from such brutishness as quickly as possible. If given the opportunity, the character's Charisma can offset ugliness, but this requires a fair amount of conversation and interaction to take place."],
 	3: ["You're ugly. Hover for more", "Such an individual is simply ugly. The reaction evidenced will tend toward unease and a desire to get away from such brutishness as quickly as possible. If given the opportunity, the character's Charisma can offset ugliness, but this requires a fair amount of conversation and interaction to take place."],
