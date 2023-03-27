@@ -27,7 +27,7 @@ export class ArmorInfo{
 
     get belongsToNpc(){
         var parent = this._itemData?.parent;
-        if (Utilities.isObjectOfType(parent, "OSRICActor")){
+        if (Utilities.isObjectOfType(parent, "ARSActor")){
             return this._itemData.actor.type === 'npc';
         }
         return true;
@@ -35,7 +35,7 @@ export class ArmorInfo{
 
     get owningActorId(){
         var parent = this._itemData?.parent;
-        if (Utilities.isObjectOfType(parent, "OSRICActor")){
+        if (Utilities.isObjectOfType(parent, "ARSActor")){
             return this._itemData?.actor?.id;
         }
         return null;
@@ -43,7 +43,7 @@ export class ArmorInfo{
 
     get owningTokenId(){
         var parent = this._itemData?.parent;
-        if (Utilities.isObjectOfType(parent, "OSRICActor")){
+        if (Utilities.isObjectOfType(parent, "ARSActor")){
             return this._itemData?.actor?.token?.id;
         }
         return null;

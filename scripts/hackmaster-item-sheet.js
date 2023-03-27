@@ -12,7 +12,7 @@ export class HackmasterItemSheet{
     static initialize(){
         this.addArmorDamageFields();
 
-        Hooks.on('renderOSRICItemSheet', async (sheet) => {
+        Hooks.on('renderARSItemSheet', async (sheet) => {
             let hmSheet = new HackmasterItemSheet(sheet);
             if (hmSheet.itemType == 'weapon'){
                 await hmSheet.insertWeaponDamageSizes();
