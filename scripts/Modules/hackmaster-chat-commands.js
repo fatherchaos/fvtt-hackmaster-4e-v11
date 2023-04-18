@@ -2,12 +2,14 @@ import { HackmasterActor } from './hackmaster-actor.js';
 import { HackmasterCrits } from './hackmaster-crits.js';
 import { CritData } from '../../data/crit-data.js';
 import { Utilities } from '../utilities.js'
+import { HackmasterFumbles } from './hackmaster-fumbles.js';
 
 export class HackmasterChatCommands{
 
     static CommandMap = {
         ["/hmcrit"]: HackmasterChatCommands.HandleForcedCritCommand,
-        ["/crit"]: HackmasterChatCommands.HandleRandomCritCommand
+        ["/crit"]: HackmasterChatCommands.HandleRandomCritCommand,
+        ["/fumble"]: HackmasterChatCommands.HandleRandomFumbleCommand
     };
         
     static initialize(){
@@ -78,5 +80,18 @@ export class HackmasterChatCommands{
         }
 
         return "Invalid command. Usage: select your token, target exactly 1 token, and then /crit [(s,p,b)] [*#attackBonus] [*called shot (abdomen, arm, eye, groin, hand, head, leg, neck, tail, torso]";
+    }
+
+    static HandleRandomFumbleCommand(args){
+        let arg = args.length > 0 ? args[0].toLowerCase() : null;
+        let isUnarmed = arg === 'unarmed' || arg === 'u';
+
+        let fumble = HackmasterFumbles.handleFumble(isUnarmed);
+        return HackmasterFumbles.createFumbleCard(fumble);
+    }
+
+    static HandleRandomMishapCommand(args){
+        let mishap = HackmasterFumbles.handleMishap();
+        return mishap;
     }
 }

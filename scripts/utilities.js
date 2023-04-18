@@ -47,6 +47,10 @@ export class Utilities {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
+    static getDieResult(dieFace){
+        return this.getRandomNumber(1, dieFace);
+    }
+
     static rollPenetrateInBothDirection(nNumSides){
         let nValue = Utilities.getRandomNumber(1, nNumSides);
         if (nValue == nNumSides){
@@ -61,7 +65,7 @@ export class Utilities {
     static getDiceResult(numDice, dieFace){
         let total = 0;
         for(let i = 0; i < numDice; i++){
-            Utilities.getRandomNumber(1, dieFace);
+            total += Utilities.getRandomNumber(1, dieFace);
         }
         return total;
     }

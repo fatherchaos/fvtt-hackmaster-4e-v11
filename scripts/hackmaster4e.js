@@ -24,7 +24,8 @@ function loadHackmasterTemplates(){
     'modules/hackmaster-4e/templates/armor-damage-card.hbs',
     'modules/hackmaster-4e/templates/top-check-card.hbs',
     'modules/hackmaster-4e/templates/weapon-damage-section.hbs',
-    'modules/hackmaster-4e/templates/comeliness-section.hbs'
+    'modules/hackmaster-4e/templates/comeliness-section.hbs',
+    'modules/hackmaster-4e/templates/fumble-chat-card.hbs'
   ]);
   console.log("pre-loading HM4 templates - finish");
 }

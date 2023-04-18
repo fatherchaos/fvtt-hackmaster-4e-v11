@@ -5,6 +5,19 @@ import { Utilities } from '../utilities.js'
 
 export class HackmasterCombatManager{
 
+    static getAdditionalInitiativeModifiers(combatant){
+        let hmActor = new HackmasterActor(combatant.actor);
+
+        let modifiers = [];
+        if (hmActor.isInDishonor()){
+            modifiers.push({desc: 'dishonor', value: 1});
+        }
+        else if (hmActor.isInGreatHonor()){
+            modifiers.push({desc: 'honor', value: -1});
+        }
+        return modifiers;
+    }
+
     static async applyArmorSoak(dmgAdjustResult, sourceActor, targetToken, sourceItem, sourceAction, bDamage, dmgDone, ammo = null){
         if (!bDamage){
             return dmgAdjustResult;
