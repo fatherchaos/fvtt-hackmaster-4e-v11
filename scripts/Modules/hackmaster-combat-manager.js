@@ -1,5 +1,6 @@
 import { HackmasterActor } from '../Modules/hackmaster-actor.js';
 import { HackmasterCrits } from '../Modules/hackmaster-crits.js';
+import { HackmasterFumbles } from '../Modules/hackmaster-fumbles.js';
 import { HackmasterItem } from '../Modules/hackmaster-item.js';
 import { Utilities } from '../utilities.js'
 
@@ -101,6 +102,11 @@ export class HackmasterCombatManager{
 			let card = HackmasterCrits.createCritCard(crit);
 			Utilities.displayChatMessage(card, source);
 		}
+        else if (roll.fumbled){
+            let fumble = HackmasterFumbles.handleFumble();
+            let card = HackmasterFumbles.createFumbleCard(fumble);
+            Utilities.displayChatMessage(card);
+        }
 	}
 
     static applyHonorToAttackRoll(dd, bonusFormula, additionalRollData){

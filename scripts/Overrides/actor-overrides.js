@@ -33,13 +33,22 @@ export class OsricActorOverrides {
 	}
 
 	static overrideStatBonuses(){
-	  CONFIG.ARS.constitutionTable["0"] = Hackmaster.ConstitutionTable;
-	  
-	  libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Actor.documentClass.prototype._buildAbilityFields', (function() {
-	    return function(data) {
-			OsricActorOverrides._buildAbilityFields(data);
-	    };
-	  })(), 'OVERRIDE');
+		let variants = Object.keys(CONFIG.ARS.strengthTable);
+		variants.forEach(variant => {
+			CONFIG.ARS.strengthTable[variant] = Hackmaster.StrengthTable;
+			CONFIG.ARS.dexterityTable[variant] = Hackmaster.DexterityTable;
+			CONFIG.ARS.constitutionTable[variant] = Hackmaster.ConstitutionTable;	
+			CONFIG.ARS.intelligenceTable[variant] = Hackmaster.IntelligenceTable;
+			// TODO: WisdomBonusSLots table
+			CONFIG.ARS.wisdomTable[variant] = Hackmaster.WisdomTable;
+			CONFIG.ARS.charismaTable[variant] = Hackmaster.CharismaTable;
+		});
+  
+		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Actor.documentClass.prototype._buildAbilityFields', (function() {
+			return function(data) {
+				OsricActorOverrides._buildAbilityFields(data);
+			};
+		})(), 'OVERRIDE');
 	}
 
 	static _buildAbilityFields(data) {
