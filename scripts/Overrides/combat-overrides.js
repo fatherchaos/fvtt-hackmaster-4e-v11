@@ -12,11 +12,13 @@ export class OsricCombatOverrides {
 	}
 
 	static hookInitiativeModifiers(){
-		Hooks.on('addAdditionalInitiativeModifiers', (formula, combatant, combat) => {
-			let modifiers = HackmasterCombatManager.getAdditionalInitiativeModifiers(combatant);
-			modifiers.forEach(modifier => {
-				formula += ` + ${modifier.value}`;
-			});
+		Hooks.on('addAdditionalInitiativeModifiers', (data) => {
+			if (data && data.formula && data.combatant){
+				let modifiers = HackmasterCombatManager.getAdditionalInitiativeModifiers(data.combatant);
+				modifiers.forEach(modifier => {
+					data.formula += ` + ${modifier.value}`;
+				});
+			}
 		});
 	}
 
@@ -28,7 +30,6 @@ export class OsricCombatOverrides {
 			return await wrapped(dd, targetToken)
 		}, 'WRAPPER');
 	}
-	getDamageFormulas
 
 	static overrideSendHealthAdjustChatCard(){
 		libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'game.osric.combatManager.sendHealthAdjustChatCard', async function(wrapped, ...args) {

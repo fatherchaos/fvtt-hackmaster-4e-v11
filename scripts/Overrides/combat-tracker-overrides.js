@@ -15,7 +15,6 @@ export class OsricCombatTrackerOverrides {
         }
         else{
           await this.resetAll();
-          await this.update({ turn: null });
           await wrapped(...args);
         }
 		}, 'MIXED');

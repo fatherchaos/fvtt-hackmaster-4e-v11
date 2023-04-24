@@ -3,13 +3,16 @@ import { HackmasterCrits } from './hackmaster-crits.js';
 import { CritData } from '../../data/crit-data.js';
 import { Utilities } from '../utilities.js'
 import { HackmasterFumbles } from './hackmaster-fumbles.js';
+import { HackmasterCharacterBackground } from './hackmaster-char-background.js';
 
 export class HackmasterChatCommands{
 
     static CommandMap = {
         ["/hmcrit"]: HackmasterChatCommands.HandleForcedCritCommand,
         ["/crit"]: HackmasterChatCommands.HandleRandomCritCommand,
-        ["/fumble"]: HackmasterChatCommands.HandleRandomFumbleCommand
+        ["/fumble"]: HackmasterChatCommands.HandleRandomFumbleCommand,
+        ["/mishap"]: HackmasterChatCommands.HandleMishapCommand,
+        ["/quirk"]: HackmasterChatCommands.HandleQuirkFlawCommand
     };
         
     static initialize(){
@@ -90,8 +93,13 @@ export class HackmasterChatCommands{
         return HackmasterFumbles.createFumbleCard(fumble);
     }
 
-    static HandleRandomMishapCommand(args){
+    static HandleMishapCommand(args){
         let mishap = HackmasterFumbles.handleMishap();
-        return mishap;
+        return HackmasterFumbles.createMishapCard(mishap);
+    }
+
+    static HandleQuirkFlawCommand(args){
+        let quirkFlaw = HackmasterCharacterBackground.getQuirkOrFlaw();
+        return HackmasterCharacterBackground.createQuirkFlawCard(quirkFlaw);
     }
 }

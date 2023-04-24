@@ -1,4 +1,5 @@
 import { Utilities } from '../utilities.js'
+import { HackmasterCharacterBackground } from "./hackmaster-char-background.js";
 
 export class HackmasterFumbles{
 
@@ -84,21 +85,21 @@ export class HackmasterFumbles{
         else if (nRollValue < 1029 ) sResult = "Rash (-1 dex) for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 1069 ) sResult = "Suffer " + Utilities.getDiceResult(1, 4, -2) + " points of damage";
         else if (nRollValue < 1084 ) sResult = "Lose sense of touch in fingers for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 1096 ) sResult = CharBackgroundManagerPO.getBodySide() + " arm goes numb for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 1122 ) sResult = CharBackgroundManagerPO.getBodySide() + " leg goes numb for " + HackmasterFumbles.getMishapDuration
+        else if (nRollValue < 1096 ) sResult = HackmasterCharacterBackground.getBodySide() + " arm goes numb for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 1122 ) sResult = HackmasterCharacterBackground.getBodySide() + " leg goes numb for " + HackmasterFumbles.getMishapDuration
         else if (nRollValue < 1146 ) sResult = "Constantly gasping for air (slows speech by half, doubles casting times)";
         else if (nRollValue < 1196 ) sResult = "Personal cloudburst";
         else if (nRollValue < 1236 ) sResult = "2 random memorized spells go off simultaneously";
         else if (nRollValue < 1271 ) sResult = "Suffer " + Utilities.getDiceResult(1, 4) + " points of damage";
-        else if (nRollValue < 1296 ) sResult = "Loss of one spell slot for " + getMishapDuration();
+        else if (nRollValue < 1296 ) sResult = "Loss of one spell slot for " + HackmasterFumblesgetMishapDuration();
         else if (nRollValue < 1326 ) sResult = "Suffer " + Utilities.getDiceResult(1, 6, 1) + " points of damage";
         else if (nRollValue < 1376 ) sResult = "Spell dissolves in minor explosion: " + Utilities.getDiceResult(1, 6, -2) + " points of damage in a 5-foot radius";
-        else if (nRollValue < 1409 ) sResult = "Loss of two spell slots for " + getMishapDuration();
-        else if (nRollValue < 1469 ) sResult = "Cannot memorize that spell again for " + getMishapDuration();
+        else if (nRollValue < 1409 ) sResult = "Loss of two spell slots for " + HackmasterFumblesgetMishapDuration();
+        else if (nRollValue < 1469 ) sResult = "Cannot memorize that spell again for " + HackmasterFumblesgetMishapDuration();
         else if (nRollValue < 1494 ) sResult = "Eyes turn " + HackmasterFumbles.getColorChange() + " permanently";
         else if (nRollValue < 1519 ) sResult = "Hair turns " + HackmasterFumbles.getColorChange() + " permanently";
         else if (nRollValue < 1544 ) sResult = "Skin turns " + HackmasterFumbles.getColorChange() + " permanently";
-        else if (nRollValue < 1555 ) sResult = "Polymorphed to amphibian for " + getMishapDuration();
+        else if (nRollValue < 1555 ) sResult = "Polymorphed to amphibian for " + HackmasterFumblesgetMishapDuration();
         else if (nRollValue < 1590 ) sResult = "Skin covered in large blotches (-3 Comeliness) for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 1601 ) sResult = "Skin covered in large blotches (-3 Comeliness) permanently";
         else if (nRollValue < 1681 ) sResult = "Now talks to self";
@@ -117,22 +118,22 @@ export class HackmasterFumbles{
         else if (nRollValue < 2093 ) sResult = "Reduce random object (as spell)";
         else if (nRollValue < 2133 ) sResult = "Enlarge self";
         else if (nRollValue < 2153 ) sResult = "Reduce self";
-        else if (nRollValue < 2878 ) sResult = "Gain minor mental quirk: " + CharBackgroundManagerPO.getMinorMentalQuirk() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 3178 ) sResult = "Gain minor mental quirk: " + CharBackgroundManagerPO.getMinorMentalQuirk() + " permanently";
-        else if (nRollValue < 3278 ) sResult = "Sibling (or parent) gains " + CharBackgroundManagerPO.getMinorMentalQuirk() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 3323 ) sResult = "Sibling (or parent) gains " + CharBackgroundManagerPO.getMinorMentalQuirk() + " permanently";
-        else if (nRollValue < 4048 ) sResult = "Gain " + CharBackgroundManagerPO.getMinorPersonalityQuirk() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 4348 ) sResult = "Gain " + CharBackgroundManagerPO.getMinorPersonalityQuirk() + " permanently";
-        else if (nRollValue < 4448 ) sResult = "Sibling (or parent) gains " + CharBackgroundManagerPO.getMinorPersonalityQuirk() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 4493 ) sResult = "Sibling (or parent) gains " + CharBackgroundManagerPO.getMinorPersonalityQuirk() + " permanently";
-        else if (nRollValue < 4793 ) sResult = "Gain " + CharBackgroundManagerPO.getMajorMentalQuirk() + " for " + getMishapDuration();
-        else if (nRollValue < 4943 ) sResult = "Gain " + CharBackgroundManagerPO.getMajorMentalQuirk() + " permanently";
-        else if (nRollValue < 4983 ) sResult = "Sibling (or parent) gains " + CharBackgroundManagerPO.getMajorMentalQuirk() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 5003 ) sResult = "Sibling (or parent) gains " + CharBackgroundManagerPO.getMajorMentalQuirk() + " permanently";
-        else if (nRollValue < 5303 ) sResult = "Gain " + CharBackgroundManagerPO.getMajorPersonalityQuirk() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 5453 ) sResult = "Gain " + CharBackgroundManagerPO.getMajorPersonalityQuirk() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 5523 ) sResult = "Sibling (or parent) gains " + CharBackgroundManagerPO.getMajorPersonalityQuirk() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 5553 ) sResult = "Sibling (or parent) gains " + CharBackgroundManagerPO.getMajorPersonalityQuirk() + " permanently";
+        else if (nRollValue < 2878 ) sResult = "Gain minor mental quirk: " + HackmasterCharacterBackground.getMinorMentalQuirk() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 3178 ) sResult = "Gain minor mental quirk: " + HackmasterCharacterBackground.getMinorMentalQuirk() + " permanently";
+        else if (nRollValue < 3278 ) sResult = "Sibling (or parent) gains " + HackmasterCharacterBackground.getMinorMentalQuirk() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 3323 ) sResult = "Sibling (or parent) gains " + HackmasterCharacterBackground.getMinorMentalQuirk() + " permanently";
+        else if (nRollValue < 4048 ) sResult = "Gain " + HackmasterCharacterBackground.getMinorPersonalityQuirk() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 4348 ) sResult = "Gain " + HackmasterCharacterBackground.getMinorPersonalityQuirk() + " permanently";
+        else if (nRollValue < 4448 ) sResult = "Sibling (or parent) gains " + HackmasterCharacterBackground.getMinorPersonalityQuirk() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 4493 ) sResult = "Sibling (or parent) gains " + HackmasterCharacterBackground.getMinorPersonalityQuirk() + " permanently";
+        else if (nRollValue < 4793 ) sResult = "Gain " + HackmasterCharacterBackground.getMajorMentalQuirk() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 4943 ) sResult = "Gain " + HackmasterCharacterBackground.getMajorMentalQuirk() + " permanently";
+        else if (nRollValue < 4983 ) sResult = "Sibling (or parent) gains " + HackmasterCharacterBackground.getMajorMentalQuirk() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 5003 ) sResult = "Sibling (or parent) gains " + HackmasterCharacterBackground.getMajorMentalQuirk() + " permanently";
+        else if (nRollValue < 5303 ) sResult = "Gain " + HackmasterCharacterBackground.getMajorPersonalityQuirk() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 5453 ) sResult = "Gain " + HackmasterCharacterBackground.getMajorPersonalityQuirk() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 5523 ) sResult = "Sibling (or parent) gains " + HackmasterCharacterBackground.getMajorPersonalityQuirk() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 5553 ) sResult = "Sibling (or parent) gains " + HackmasterCharacterBackground.getMajorPersonalityQuirk() + " permanently";
         else if (nRollValue < 5583 ) sResult = "Wandering eye for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 5603 ) sResult = "Gain 1 alignment infration point";
         else if (nRollValue < 5653 ) sResult = "Blinks (as per spell)";
@@ -152,19 +153,19 @@ export class HackmasterFumbles{
         else if (nRollValue < 5895 ) sResult = "Wandering eye - permanent";
         else if (nRollValue < 5945 ) sResult = "Cannot memorize that spell again - permanently";
         else if (nRollValue < 5995 ) sResult = "Becomes center of a Stinking Cloud spell";
-        else if (nRollValue < 6195 ) sResult = "Gains " + CharBackgroundManagerPO.getMinorPhysicalFlaw6b() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 6285 ) sResult = "Gains " + CharBackgroundManagerPO.getMinorPhysicalFlaw6b() + " permanently";
-        else if (nRollValue < 6485 ) sResult = "Gains " + CharBackgroundManagerPO.getMinorPhysicalFlaw6c() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 6575 ) sResult = "Gains " + CharBackgroundManagerPO.getMinorPhysicalFlaw6c() + " permanently";
-        else if (nRollValue < 6775 ) sResult = "Gains " + CharBackgroundManagerPO.getMinorPhysicalFlaw6d() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 6900 ) sResult = "Gains " + CharBackgroundManagerPO.getMinorPhysicalFlaw6d() + " permanently";
+        else if (nRollValue < 6195 ) sResult = "Gains " + HackmasterCharacterBackground.getMinorPhysicalFlaw6b() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 6285 ) sResult = "Gains " + HackmasterCharacterBackground.getMinorPhysicalFlaw6b() + " permanently";
+        else if (nRollValue < 6485 ) sResult = "Gains " + HackmasterCharacterBackground.getMinorPhysicalFlaw6c() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 6575 ) sResult = "Gains " + HackmasterCharacterBackground.getMinorPhysicalFlaw6c() + " permanently";
+        else if (nRollValue < 6775 ) sResult = "Gains " + HackmasterCharacterBackground.getMinorPhysicalFlaw6d() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 6900 ) sResult = "Gains " + HackmasterCharacterBackground.getMinorPhysicalFlaw6d() + " permanently";
         else if (nRollValue < 6920 ) sResult = "Teleport 5 feet straight up";
         else if (nRollValue < 6929 ) sResult = "Teleport 10 feet straight up";
         else if (nRollValue < 6937 ) sResult = "Teleport 50 feet straight up";
         else if (nRollValue < 6959 ) sResult = "Needs 1 extra hour of sleep for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 6969 ) sResult = "Loses all tattoos for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 6979 ) sResult = "Permanently loses all tattoos";
-        else if (nRollValue < 6984 ) sResult = "Shaking (-1 to-hit, -1 to damage, +3 segments to casting times for spells with somatic components) for " + getMishapDuration();
+        else if (nRollValue < 6984 ) sResult = "Shaking (-1 to-hit, -1 to damage, +3 segments to casting times for spells with somatic components) for " + HackmasterFumblesgetMishapDuration();
         else if (nRollValue < 6999 ) sResult = "Needs 2 extra hours of sleep for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 7017 ) sResult = "Conversations with self (thinks others respond) for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 7032 ) sResult = "Is convinced he has a long lost sibling";
@@ -174,14 +175,14 @@ export class HackmasterFumbles{
         else if (nRollValue < 7078 ) sResult = "Constant thirst (must drink 3 times normal volume per day) permanently";
         else if (nRollValue < 7089 ) sResult = "Permanently emits unpleasant odor (-1 to reaction rolls)";
         else if (nRollValue < 7096 ) sResult = "Permanently emits vile odor (-3 to reaction rolls)";
-        else if (nRollValue < 7186 ) sResult = "Gains " + CharBackgroundManagerPO.getMajorPhysicalFlaw() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 7276 ) sResult = "Gains " + CharBackgroundManagerPO.getMajorPhysicalFlaw() + " permanently";
+        else if (nRollValue < 7186 ) sResult = "Gains " + HackmasterCharacterBackground.getMajorPhysicalFlaw() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 7276 ) sResult = "Gains " + HackmasterCharacterBackground.getMajorPhysicalFlaw() + " permanently";
         else if (nRollValue < 7296 ) sResult = "Immediate alignment audit";
         else if (nRollValue < 7306 ) sResult = "Summon hostile monsters (MS1)"; // TODO, MS1
         else if (nRollValue < 7315 ) sResult = "Summon hostile monsters (MS2)"; // TODO, ms2
         else if (nRollValue < 7357 ) sResult = "Struck by Lightning Bolt from above";
         else if (nRollValue < 7369 ) sResult = "Switch gender for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 7384 ) sResult = "Change race to " + CharBackgroundManagerPO.getRandomRace() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 7384 ) sResult = "Change race to " + HackmasterCharacterBackground.getRandomRace() + " for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 7386 ) sResult = "Shaking (-1 to-hit, -1 to damage, +3 segments to casting times for spells with somatic components) - permanent";
         else if (nRollValue < 7398 ) sResult = "Uncontrollable falling down at random (1d100 minute) intervals for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 7403 ) sResult = "Uncontrollable falling down at random (1d100 minute) intervals - permanent";
@@ -210,7 +211,7 @@ export class HackmasterFumbles{
         else if (nRollValue < 7775 ) sResult = "Hasted (as spell)";
         else if (nRollValue < 7805 ) sResult = "-1 to-hit for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 7833 ) sResult = "-1 to damage rolls for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 7843 ) sResult = "Hatred of one gender (" + CharBackgroundManagerPO.getGender() + ")";
+        else if (nRollValue < 7843 ) sResult = "Hatred of one gender (" + HackmasterCharacterBackground.getGender() + ")";
         else if (nRollValue < 7857 ) sResult = "-2 to-hit for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 7881 ) sResult = "-1 to all rolls for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 7887 ) sResult = "Summon hostile monsters (MS5)"; // TODO: MS5
@@ -242,9 +243,9 @@ export class HackmasterFumbles{
         else if (nRollValue < 8585 ) sResult = "Permanent -1 to-hit";
         else if (nRollValue < 8589 ) sResult = "Permanent -2 to dmaage rolls";
         else if (nRollValue < 8592 ) sResult = "Drug Addiction (GM chooses substance)";
-        else if (nRollValue < 8640 ) sResult = "Lose 50 fractional points from " + CharBackgroundManagerPO.getAbilityScore() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 8664 ) sResult = "Lose 1 point from " + CharBackgroundManagerPO.getAbilityScore() + " for " + HackmasterFumbles.getMishapDuration();
-        else if (nRollValue < 8676 ) sResult = "Lose 2 points from " + CharBackgroundManagerPO.getAbilityScore() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 8640 ) sResult = "Lose 50 fractional points from " + HackmasterCharacterBackground.getAbilityScore() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 8664 ) sResult = "Lose 1 point from " + HackmasterCharacterBackground.getAbilityScore() + " for " + HackmasterFumbles.getMishapDuration();
+        else if (nRollValue < 8676 ) sResult = "Lose 2 points from " + HackmasterCharacterBackground.getAbilityScore() + " for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 8696 ) sResult = "Lose 50 fraction points from each ability score for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 8716 ) sResult = "Lose a point from each ability score for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 8736 ) sResult = "Lose 2 pointsfrom each ability score for " + HackmasterFumbles.getMishapDuration();
@@ -253,8 +254,8 @@ export class HackmasterFumbles{
         else if (nRollValue < 8798 ) sResult = "Summon hostile monsters (MS6)"; // MS6, TODO
         else if (nRollValue < 8802 ) sResult = "Summon hostile monsters (MS7)"; // MS7, todo
         else if (nRollValue < 8809 ) sResult = "Lose sense of touch in fingers permanently (x3 casting time, -4 to hit)";
-        else if (nRollValue < 8814 ) sResult = CharBackgroundManagerPO.getBodySide() + " arm goes permanently numb, becoming useless";
-        else if (nRollValue < 8821 ) sResult = CharBackgroundManagerPO.getBodySide() + " leg goes permanently numb, becoming useless";
+        else if (nRollValue < 8814 ) sResult = HackmasterCharacterBackground.getBodySide() + " arm goes permanently numb, becoming useless";
+        else if (nRollValue < 8821 ) sResult = HackmasterCharacterBackground.getBodySide() + " leg goes permanently numb, becoming useless";
         else if (nRollValue < 8835 ) sResult = "Permanent loss of one random spell";
         else if (nRollValue < 8847 ) sResult = "Permanent -1 to all rolls";
         else if (nRollValue < 8857 ) sResult = "Permanent loss of one spell slot";
@@ -263,8 +264,8 @@ export class HackmasterFumbles{
         else if (nRollValue < 8901 ) sResult = "Contracts malaria";
         else if (nRollValue < 8907 ) sResult = "Permanent -2 to all rolls";
         else if (nRollValue < 8920 ) sResult = "Permanent loss of two spell slots";
-        else if (nRollValue < 8930 ) sResult = "Alignment change - 1 step towards " + CharBackgroundManagerPO.getLawChaos();
-        else if (nRollValue < 8940 ) sResult = "Alignment change - 1 step towards " + CharBackgroundManagerPO.getGoodEvil();
+        else if (nRollValue < 8930 ) sResult = "Alignment change - 1 step towards " + HackmasterCharacterBackground.getLawChaos();
+        else if (nRollValue < 8940 ) sResult = "Alignment change - 1 step towards " + HackmasterCharacterBackground.getGoodEvil();
         else if (nRollValue < 9040 ) sResult = "Becomes misanthrope permanently";
         else if (nRollValue < 9051 ) sResult = "Sibling (or parent) permanently emits unpleasant odor (-1 to reaction rolls)";
         else if (nRollValue < 9060 ) sResult = "Sibling (or parent) permanently emits vile odor (-3 to reaction rolls)";
@@ -281,7 +282,7 @@ export class HackmasterFumbles{
         else if (nRollValue < 9216 ) sResult = "Gain Insanity: " + HackmasterFumbles.getInsanity();
         else if (nRollValue < 9236 ) sResult = "Now hates one sibling (or parent)";
         else if (nRollValue < 9246 ) sResult = "Now hated by one sibling (or parent)";
-        else if (nRollValue < 9253 ) sResult = "Change race to " + CharBackgroundManagerPO.getRandomRace() + " permanently";
+        else if (nRollValue < 9253 ) sResult = "Change race to " + HackmasterCharacterBackground.getRandomRace() + " permanently";
         else if (nRollValue < 9257 ) sResult = "Becomes {10d4} years younger";
         else if (nRollValue < 9261 ) sResult = "Lose {1d8} points of Honor";
         else if (nRollValue < 9263 ) sResult = "Lose {2d4} points of Honor";
@@ -307,9 +308,9 @@ export class HackmasterFumbles{
         else if (nRollValue < 9642 ) sResult = "Bulimia for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 9657 ) sResult = "Permanently unable to sleep";
         else if (nRollValue < 9664 ) sResult = "Permanent lethary (-2 to-hit, -2 to damage, double all initiative times, movement is halved)";
-        else if (nRollValue < 9689 ) sResult = "Permanent -50 fractional points to " + CharBackgroundManagerPO.getAbilityScore();
-        else if (nRollValue < 9709 ) sResult = "Permanent -1 to " + CharBackgroundManagerPO.getAbilityScore();
-        else if (nRollValue < 9714 ) sResult = "Permanent -2 to " + CharBackgroundManagerPO.getAbilityScore();
+        else if (nRollValue < 9689 ) sResult = "Permanent -50 fractional points to " + HackmasterCharacterBackground.getAbilityScore();
+        else if (nRollValue < 9709 ) sResult = "Permanent -1 to " + HackmasterCharacterBackground.getAbilityScore();
+        else if (nRollValue < 9714 ) sResult = "Permanent -2 to " + HackmasterCharacterBackground.getAbilityScore();
         else if (nRollValue < 9724 ) sResult = "Spontaneous combustion! Bursts into flame and suffers " + Utilities.getDiceResult(6, 8) + " points of damage";
         else if (nRollValue < 9744 ) sResult = "Sibling (or parent) suffers uncontrollable weight gain of 1 pound per week for " + HackmasterFumbles.getMishapDuration();
         else if (nRollValue < 9764 ) sResult = "Gains appearance of undead (-15 Comeliness, -5 Charisma) for " + HackmasterFumbles.getMishapDuration();
@@ -423,8 +424,8 @@ export class HackmasterFumbles{
         else if (nRollValue == 62 ) return "Odinophobia (the wrath of Odin)";
         else if (nRollValue == 63 ) return "Odontophobia (teeth)";
         else if (nRollValue == 64 ) return "Oenophobia (wines)";
-        else if (nRollValue == 65 ) return "Class (" + CharBackgroundManagerPO.getRandomClass() + ")";
-        else if (nRollValue == 66 ) return "Race (" + CharBackgroundManagerPO.getRandomRace() + ")"; 
+        else if (nRollValue == 65 ) return "Class (" + HackmasterCharacterBackground.getRandomClass() + ")";
+        else if (nRollValue == 66 ) return "Race (" + HackmasterCharacterBackground.getRandomRace() + ")"; 
         else if (nRollValue == 67 ) return "Pagophobia (ice, frost)";
         else if (nRollValue == 68 ) return "Papyrophobia (paper, papyrus, etc)";
         else if (nRollValue == 69 ) return "Pediophobia (dolls)";
@@ -759,6 +760,14 @@ export class HackmasterFumbles{
             isUnarmed: fumble.isUnarmed,
             roll: fumble.roll,
             description: fumble.description
+        });
+        return card;
+    }
+
+    static createMishapCard(mishap){
+        let card = Utilities.loadCachedTemplate("modules/hackmaster-4e/templates/mishap-chat-card.hbs", {
+            roll: mishap.roll,
+            description: mishap.description
         });
         return card;
     }

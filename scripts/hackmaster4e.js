@@ -25,7 +25,9 @@ function loadHackmasterTemplates(){
     'modules/hackmaster-4e/templates/top-check-card.hbs',
     'modules/hackmaster-4e/templates/weapon-damage-section.hbs',
     'modules/hackmaster-4e/templates/comeliness-section.hbs',
-    'modules/hackmaster-4e/templates/fumble-chat-card.hbs'
+    'modules/hackmaster-4e/templates/fumble-chat-card.hbs',
+    'modules/hackmaster-4e/templates/mishap-chat-card.hbs',
+    'modules/hackmaster-4e/templates/quirk-flaw-chat-card.hbs'
   ]);
   console.log("pre-loading HM4 templates - finish");
 }
