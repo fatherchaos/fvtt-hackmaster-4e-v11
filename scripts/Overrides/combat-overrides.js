@@ -8,18 +8,6 @@ export class OsricCombatOverrides {
 		OsricCombatOverrides.overrideApplyDamageAdjustments();
 		OsricCombatOverrides.overrideSendHealthAdjustChatCard();
 		OsricCombatOverrides.overrideGetDamageFormulas();
-		OsricCombatOverrides.hookInitiativeModifiers();
-	}
-
-	static hookInitiativeModifiers(){
-		Hooks.on('addAdditionalInitiativeModifiers', (data) => {
-			if (data && data.formula && data.combatant){
-				let modifiers = HackmasterCombatManager.getAdditionalInitiativeModifiers(data.combatant);
-				modifiers.forEach(modifier => {
-					data.formula += ` + ${modifier.value}`;
-				});
-			}
-		});
 	}
 
 	static overrideGetDamageFormulas(){

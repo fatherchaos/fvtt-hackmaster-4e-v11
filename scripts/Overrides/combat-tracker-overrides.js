@@ -6,7 +6,23 @@ export class OsricCombatTrackerOverrides {
 	static initialize(){
 		OsricCombatTrackerOverrides.overrideUpdateCombat();
     OsricCombatTrackerOverrides.overrideProcessOngoingHealthAdjustments();
+    OsricCombatTrackerOverrides.overrideCombatRollInitiative();
 	}
+
+  static overrideCombatRollInitiative(){
+    libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Combat.documentClass.prototype.rollInitiative', async function(wrapped, ...args) {
+        if (args && args.length > 0){
+          let combatant = this.combatants.get(args[0][0]);
+          if (combatant && args.length > 1 && args[1].formula) {
+            let modifiers = HackmasterCombatManager.getAdditionalInitiativeModifiers(combatant);
+            modifiers.forEach(modifier => {
+              args[1].formula += ` + ${modifier.value}`;
+            });
+          }
+        }
+        await wrapped(...args); 
+    }, 'WRAPPER');
+  }
 
   static overrideUpdateCombat(){
     libWrapper.register(CONFIG.Hackmaster.MODULE_ID, 'CONFIG.Combat.documentClass.prototype.reRollInitiative', async function(wrapped, ...args) {
