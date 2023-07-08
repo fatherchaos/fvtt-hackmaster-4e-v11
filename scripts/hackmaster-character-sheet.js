@@ -30,7 +30,9 @@ export class HackmasterCharacterSheet {
 	}
 
 	getArmors(){
-		let armors = this.inventory.filter(i => 
+		console.log("Get armors\n",this);
+		console.log(this._sheet.object.inventory);
+		let armors = this._sheet.object.inventory.filter(i => 
 			i.type === "armor" && 
 			(i.system.protection.type === "armor" || i.system.protection.type === "shield")
 		).map(a => new ArmorInfo(a));
@@ -93,6 +95,8 @@ export class HackmasterCharacterSheet {
 
 	async insertArmorTracker(armor){
 		if (armor){
+			console.log("armor section: ",this);
+			console.log(this.findElement(".armor-tracker-section"));
 			let armorTrackerSection = this.findElement(".armor-tracker-section");
 			let template = await ArmorDamageTracker.buildArmorReport(armor);
 			armorTrackerSection.append(template);
@@ -124,9 +128,10 @@ export class HackmasterCharacterSheet {
 	}
 
 	async insertArmorTrackers(){
-		let combatBox = this.findElement(".combat-stats");
+		let combatBox = this.findElement(".ability-save-grid");
 		let section = await this.buildArmorDamageSection();
 		combatBox.append(section);
+		console.log("insert armor tracker\n",this);
 		await Promise.all(this.getArmors().map(a => this.insertArmorTracker(a)));
 	}
 
